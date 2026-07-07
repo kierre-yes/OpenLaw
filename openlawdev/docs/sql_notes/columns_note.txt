@@ -1,0 +1,125 @@
+## Table by table
+
+### legal_sources
+This is the parent table for each official legal document. Use it for the document identity, not the chunked text. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+
+- `id` — unique ID for the source.
+- `title` — full official name.
+- `short_title` — shorter display name.
+- `source_type` — law, regulation, circular, case, and so on.
+- `jurisdiction` — usually PH for your app.
+- `issuing_body` — agency, court, or office that published it.
+- `official_url` — the canonical link if available.
+- `publication_date` — when it was published.
+- `effectivity_date` — when it became effective.
+- `status` — active, amended, repealed, archived.
+- `language` — language of the document.
+- `created_at` and `updated_at` — timestamps for tracking changes. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+
+### legal_source_versions
+This table stores different states of the same source over time. [supabase](https://supabase.com/docs/guides/ai/rag-with-permissions)
+
+- `id` — unique ID for that version.
+- `source_id` — links back to `legal_sources`.
+- `version_label` — human readable version name.
+- `version_date` — date of that version.
+- `status` — current, superseded, draft, archived.
+- `full_text` — the full legal text for that version.
+- `content_hash` — used to detect changes.
+- `is_current` — marks the latest version.
+- `created_at` and `updated_at` — timestamps. [supabase](https://supabase.com/docs/guides/ai/rag-with-permissions)
+
+### legal_chunks
+This is your most important retrieval table because this is where pgvector lives. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+
+- `id` — unique ID for the chunk.
+- `source_version_id` — links the chunk to a specific version.
+- `chunk_index` — order of the chunk in the document.
+- `section_label` — section, article, or clause label.
+- `article_label` — article reference if needed.
+- `chunk_title` — optional display title.
+- `text_content` — the actual chunk text.
+- `token_count` — helps with chunk sizing.
+- `embedding` — the vector used for similarity search. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+- `metadata` — flexible json for extra info like tags, page number, or source notes.
+- `content_hash` — helps detect if the chunk changed.
+- `created_at` and `updated_at` — timestamps. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+
+### citations
+This stores clean citation output so the assistant can reference legal sources precisely. [4xxi](https://4xxi.com/articles/rag-for-legal-documents/)
+
+- `id` — unique ID.
+- `source_version_id` — version being cited.
+- `chunk_id` — the exact chunk used.
+- `citation_text` — formatted citation text.
+- `section_ref` — section label.
+- `article_ref` — article label.
+- `page_ref` — page reference if available.
+- `created_at` — timestamp. [4xxi](https://4xxi.com/articles/rag-for-legal-documents/)
+
+### chat_sessions
+This stores a conversation container.
+
+- `id` — session ID.
+- `user_id` — owner of the chat if authenticated.
+- `title` — optional title for the session.
+- `created_at` and `updated_at` — timestamps.
+
+### chat_messages
+This stores each message in a conversation.
+
+- `id` — message ID.
+- `session_id` — links to the session.
+- `role` — user or assistant.
+- `content` — message text.
+- `retrieved_chunk_ids` — which chunks supported the answer.
+- `created_at` — timestamp.
+
+### retrieval_logs
+This is for debugging and quality improvement.
+
+- `id` — log ID.
+- `session_id` — optional session link.
+- `question` — user query.
+- `top_chunk_ids` — chunks returned by retrieval.
+- `similarity_scores` — store the scores for analysis.
+- `created_at` — timestamp. [youtube](https://www.youtube.com/watch?v=xQa7nrICU3o)
+
+## How to test retrieval
+
+A retrieval test means: “Can my query find the most relevant legal chunk in pgvector?” You are not testing answer generation yet, only whether the database search is returning the right chunks. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+
+### What the test should do
+
+1. Insert one legal source.
+2. Insert one version for that source.
+3. Insert 2 to 3 chunks from that version.
+4. Make sure each chunk has an embedding.
+5. Run a query that compares your question embedding against the stored chunk embeddings.
+6. Sort by similarity and limit the results.
+7. Check whether the top chunk is the one you expected. [supabase](https://supabase.com/docs/guides/functions/examples/semantic-search)
+
+## How retrieval works
+
+The database compares the query vector to the stored vectors using pgvector similarity operators. Supabase’s pgvector docs show that vectors are stored in a vector column and then searched using similarity functions or ordering by vector distance. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+
+Think of the process like this:
+
+- your question becomes an embedding.
+- each chunk already has an embedding.
+- the database finds the closest chunk vectors.
+- you inspect whether the top result makes sense. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+
+## What a good test looks like
+
+If you ask something like “What is the rule about X?” then the best chunk returned should contain X or a very close legal reference. If the retrieval returns a random or unrelated chunk, your chunking, embedding model, metadata, or similarity setup needs adjustment. [supabase](https://supabase.com/docs/guides/ai/semantic-search)
+
+## What to check if it fails
+
+- embedding dimension matches the model output. [supabase](https://supabase.com/docs/guides/database/extensions/pgvector)
+- chunk text is not too large or too tiny.
+- the table actually contains embeddings.
+- the vector column type is correct.
+- your similarity threshold is not too strict.
+- your metadata filters are not excluding the right row. [stackoverflow](https://stackoverflow.com/questions/77295136/supabase-pgvector-with-custom-data-for-query)
+
