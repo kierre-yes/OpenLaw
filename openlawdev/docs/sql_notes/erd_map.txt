@@ -1,0 +1,10 @@
+legal_sources
+  1 ────< legal_source_versions
+              1 ────< legal_chunks
+                          1 ────< citations
+
+chat_sessions
+  1 ────< chat_messages
+
+chat_sessions
+  1 ────< retrieval_logs
