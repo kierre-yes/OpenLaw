@@ -1,0 +1,73 @@
+{
+  "Settings": {
+    "title": "Settings",
+    "description": "Manage your app preferences and personalization.",
+    "language": "Language",
+    "languageDescription": "Select your preferred language for the interface.",
+    "theme": "Appearance",
+    "themeDescription": "Customize how OpenLaw looks on your device.",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "Header": {
+    "search": "Search",
+    "sources": "Sources",
+    "history": "History",
+    "settings": "Settings",
+    "howItWorks": "How it works",
+    "faq": "FAQ",
+    "account": "Account",
+    "signOut": "Sign out",
+    "newSearch": "New Search",
+    "signIn": "Sign in",
+    "createAccount": "Create Account",
+    "confirmSignOutTitle": "Sign out of OpenLaw?",
+    "confirmSignOutDescription": "You are about to end your legal research session. Any unsaved queries will be cleared.",
+    "cancel": "Cancel",
+    "confirmSignOut": "Confirm Sign Out"
+  },
+  "Search": {
+    "title": "legal research, grounded.",
+    "subtitle": "Ask questions in plain English. Get answers backed by exact Philippine statutes, jurisprudence, and issuances.",
+    "tabTitle": "Search",
+    "placeholder": "E.g., What are the grounds for legal separation under the Family Code?",
+    "statutes": "Statutes",
+    "jurisprudence": "Jurisprudence",
+    "startSearching": "Start Searching",
+    "proTip": "Pro tip: Use specific keywords and cite facts for more accurate results."
+  },
+  "History": {
+    "title": "History",
+    "subtitle": "Revisit your previous legal searches and conversational threads. All your grounding context, queries, and summaries are preserved here.",
+    "searchPlaceholder": "Search history by topic...",
+    "tabTitle": "Research Log",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "older": "Older",
+    "untitled": "Untitled research session",
+    "defaultDesc": "Previous legal research session on OpenLaw. Click to resume querying.",
+    "justNow": "Just now",
+    "mAgo": "{mins}m ago",
+    "hAgo": "{hours}h ago",
+    "emptySearchTitle": "No matching history found",
+    "emptySearchDesc": "Try refining your search keyword.",
+    "clearFilter": "Clear search filter",
+    "emptyTitle": "No research history",
+    "emptyDesc": "Your previous legal queries and citations will appear here once you begin searching.",
+    "startSearching": "Start searching"
+  },
+  "Sources": {
+    "title": "Sources",
+    "subtitle": "Explore the primary legal materials powering your research. Every result on OpenLaw is grounded strictly in these verifiable authorities.",
+    "searchPlaceholder": "Search statutes, cases, or issuances...",
+    "filterAll": "All",
+    "filterStatute": "Statute",
+    "filterJurisprudence": "Jurisprudence",
+    "filterIssuance": "Issuance",
+    "tabTitle": "Library",
+    "emptySearchTitle": "No sources found",
+    "emptySearchDesc": "Try adjusting your search or filter criteria.",
+    "clearFilters": "Clear filters"
+  }
+}

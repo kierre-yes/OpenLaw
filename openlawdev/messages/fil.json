@@ -1,0 +1,73 @@
+{
+  "Settings": {
+    "title": "Mga Setting",
+    "description": "Pamahalaan ang mga kagustuhan at personalisasyon ng app.",
+    "language": "Wika",
+    "languageDescription": "Piliin ang gusto mong wika para sa interface.",
+    "theme": "Hitsura",
+    "themeDescription": "I-customize ang hitsura ng OpenLaw sa iyong device.",
+    "light": "Liwanag",
+    "dark": "Dilim",
+    "system": "Sistema"
+  },
+  "Header": {
+    "search": "Paghahanap",
+    "sources": "Mga Sanggunian",
+    "history": "Kasaysayan",
+    "settings": "Mga Setting",
+    "howItWorks": "Paano ito gumagana",
+    "faq": "Mga FAQ",
+    "account": "Account",
+    "signOut": "Mag-sign out",
+    "newSearch": "Bagong Paghahanap",
+    "signIn": "Mag-sign in",
+    "createAccount": "Gumawa ng Account",
+    "confirmSignOutTitle": "Mag-sign out sa OpenLaw?",
+    "confirmSignOutDescription": "Tatapusin mo na ang iyong sesyon sa legal na pananaliksik. Mabubura ang anumang hindi na-save na mga tanong.",
+    "cancel": "Kanselahin",
+    "confirmSignOut": "Kumpirmahin"
+  },
+  "Search": {
+    "title": "legal na pananaliksik, may batayan.",
+    "subtitle": "Magtanong sa simpleng Tagalog o Ingles. Kumuha ng mga sagot na suportado ng mga batas at hurisprudensya ng Pilipinas.",
+    "tabTitle": "Paghahanap",
+    "placeholder": "Hal., Ano ang mga batayan para sa legal separation sa ilalim ng Family Code?",
+    "statutes": "Mga Batas",
+    "jurisprudence": "Hurisprudensya",
+    "startSearching": "Magsimulang Maghanap",
+    "proTip": "Pro tip: Gumamit ng mga partikular na keyword at banggitin ang mga katotohanan para sa mas tumpak na mga resulta."
+  },
+  "History": {
+    "title": "Kasaysayan",
+    "subtitle": "Balikan ang iyong mga nakaraang paghahanap at legal na pag-uusap. Nakatago rito ang lahat ng konteksto, tanong, at buod.",
+    "searchPlaceholder": "Maghanap sa kasaysayan...",
+    "tabTitle": "Log ng Pananaliksik",
+    "today": "Ngayon",
+    "yesterday": "Kahapon",
+    "older": "Mas Luma",
+    "untitled": "Walang pamagat na sesyon",
+    "defaultDesc": "Nakaraang sesyon ng pananaliksik sa OpenLaw. I-click upang ipagpatuloy.",
+    "justNow": "Kagagawan lamang",
+    "mAgo": "{mins}m nakalipas",
+    "hAgo": "{hours}h nakalipas",
+    "emptySearchTitle": "Walang natagpuang kasaysayan",
+    "emptySearchDesc": "Subukang baguhin ang iyong keyword sa paghahanap.",
+    "clearFilter": "Linisin ang filter",
+    "emptyTitle": "Walang kasaysayan ng pananaliksik",
+    "emptyDesc": "Ang iyong mga nakaraang katanungan at legal na sanggunian ay lilitaw dito sa sandaling magsimula kang maghanap.",
+    "startSearching": "Magsimulang maghanap"
+  },
+  "Sources": {
+    "title": "Mga Sanggunian",
+    "subtitle": "Galugarin ang mga pangunahing legal na materyales na nagpapatakbo sa iyong pananaliksik. Ang bawat resulta sa OpenLaw ay nakabatay nang mahigpit sa mga mapagkakatiwalaang awtoridad na ito.",
+    "searchPlaceholder": "Maghanap ng mga batas, kaso, o inilabas na dokumento...",
+    "filterAll": "Lahat",
+    "filterStatute": "Batas",
+    "filterJurisprudence": "Hurisprudensya",
+    "filterIssuance": "Inilabas",
+    "tabTitle": "Aklatan",
+    "emptySearchTitle": "Walang natagpuang sanggunian",
+    "emptySearchDesc": "Subukang baguhin ang iyong pamantayan sa paghahanap o pag-filter.",
+    "clearFilters": "Linisin ang mga filter"
+  }
+}

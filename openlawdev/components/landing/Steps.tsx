@@ -82,7 +82,7 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
   return (
     <section
       id="steps"
-      style={{ backgroundColor: "#FAF5F1" }}
+      style={{ backgroundColor: "var(--page-bg)" }}
       className="w-full py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
