@@ -5,7 +5,7 @@ import { Scale } from "lucide-react";
 export default function Hero({ isAuthenticated = false }: { isAuthenticated?: boolean }) {
   return (
     <section
-      style={{ backgroundColor: "#FAF5F1", color: "#292F36" }}
+      style={{ backgroundColor: "var(--page-bg)", color: "var(--text-primary)" }}
       className="w-full"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-20 sm:py-28 lg:py-32">
@@ -76,7 +76,7 @@ export default function Hero({ isAuthenticated = false }: { isAuthenticated?: bo
               <Link
                 href="#steps"
                 style={{
-                  backgroundColor: "#FAF5F1",
+                  backgroundColor: "var(--page-bg)",
                   color: "#292F36",
                   borderColor: "rgba(41, 47, 54, 0.25)",
                 }}
@@ -144,7 +144,7 @@ export default function Hero({ isAuthenticated = false }: { isAuthenticated?: bo
               </div>
 
               {/* Main graphic container styled like a pinned legal page */}
-              <div className="relative w-full aspect-[16/10] bg-[#FAF5F1] rounded-xl overflow-hidden border border-[rgba(41,47,54,0.06)] shadow-inner">
+              <div className="relative w-full aspect-[16/10] bg-[var(--page-bg)] rounded-xl overflow-hidden border border-[var(--border-subtle)] shadow-inner">
                 <Image
                   src="/visual_element_hero.svg"
                   alt="OpenLaw Platform Mockup"

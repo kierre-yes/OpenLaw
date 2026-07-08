@@ -29,7 +29,7 @@ export default function LoadingScreen({ isLoading, onFinished }: LoadingScreenPr
   return (
     <div
       style={{
-        backgroundColor: "#FAF5F1",
+        backgroundColor: "var(--page-bg)",
         transition: "opacity 400ms cubic-bezier(0.25, 1, 0.5, 1)",
       }}
       className={`fixed inset-0 z-[100] flex flex-col items-center justify-center select-none ${

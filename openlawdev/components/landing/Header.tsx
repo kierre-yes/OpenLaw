@@ -3,35 +3,59 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { signOut } from "@/app/auth/actions";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-const authNavLinks = [
-  { label: "Search", href: "/search" },
-  { label: "Sources", href: "/sources" },
-  { label: "History", href: "/history" },
-  { label: "Settings", href: "/settings" },
-];
 
-const publicNavLinks = [
-  { label: "How it works", href: "#steps" },
-  { label: "FAQ", href: "#faq" },
-];
 
 export default function Header({
   onLinkClick,
   isAuthenticated = false,
+  userEmail,
 }: {
   onLinkClick?: (href: string) => void;
   isAuthenticated?: boolean;
+  userEmail?: string;
 }) {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState(
-    isAuthenticated ? "Search" : "How it works"
-  );
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
+  const [activeLink, setActiveLink] = useState("");
+
+  const emailInitials = userEmail ? userEmail.charAt(0).toUpperCase() : null;
+  const t = useTranslations("Header");
+
+  const authNavLinks = [
+    { label: t("search"), href: "/search" },
+    { label: t("sources"), href: "/sources" },
+    { label: t("history"), href: "/history" },
+    { label: t("settings"), href: "/settings" },
+  ];
+
+  const publicNavLinks = [
+    { label: t("howItWorks"), href: "#steps" },
+    { label: t("faq"), href: "#faq" },
+  ];
 
   const navLinks = isAuthenticated ? authNavLinks : publicNavLinks;
+
+  useEffect(() => {
+    const matchingLink = navLinks.find(
+      (link) =>
+        !link.href.startsWith("#") &&
+        (pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)))
+    );
+    if (matchingLink) {
+      setActiveLink(matchingLink.label);
+    } else if (pathname === "/" && !isAuthenticated) {
+      setActiveLink(t("howItWorks"));
+    } else {
+      setActiveLink("");
+    }
+  }, [pathname, isAuthenticated, navLinks]);
 
   const handleNavClick = (e: React.MouseEvent, href: string, label: string) => {
     // Only prevent default and intercept if it's an anchor link
@@ -64,17 +88,15 @@ export default function Header({
       <header
         role="banner"
         style={{
-          backgroundColor: "#FAF5F1",
-          color: "#292F36",
           borderBottom: scrolled
-            ? "1px solid rgba(41, 47, 54, 0.08)"
+            ? "1px solid var(--border-subtle)"
             : "1px solid transparent",
           boxShadow: scrolled
-            ? "0 4px 20px rgba(41, 47, 54, 0.05)"
+            ? "0 4px 20px rgba(0, 0, 0, 0.05)"
             : "none",
-          transition: "box-shadow 0.3s ease, border-color 0.3s ease",
+          transition: "box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease",
         }}
-        className="fixed top-0 left-0 right-0 z-50 w-full"
+        className="fixed top-0 left-0 right-0 z-50 w-full bg-[#FAF5F1] dark:bg-[#1A1E23] text-[#292F36] dark:text-[#FAF5F1]"
       >
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <div className="flex h-20 items-center justify-between gap-6">
@@ -153,44 +175,40 @@ export default function Header({
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
                     "
                   >
-                    <span
-                      aria-hidden="true"
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-[rgba(41,47,54,0.25)] bg-[rgba(41,47,54,0.05)]"
-                    >
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.75"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                    {emailInitials ? (
+                      <span
                         aria-hidden="true"
+                        className="flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold shadow-sm"
+                        style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
                       >
-                        <circle cx="12" cy="8" r="4" />
-                        <path d="M4 20c0-4 3.582-7 8-7s8 3 8 7" />
-                      </svg>
-                    </span>
+                        {emailInitials}
+                      </span>
+                    ) : (
+                      <span
+                        aria-hidden="true"
+                        className="flex h-7 w-7 items-center justify-center rounded-full border border-[rgba(41,47,54,0.25)] bg-[rgba(41,47,54,0.05)]"
+                      >
+                        <User className="w-3.5 h-3.5" />
+                      </span>
+                    )}
                     <span className="hidden lg:inline text-[13px]">
-                      Account
+                      {t("account")}
                     </span>
                   </Link>
-                  <form action={signOut}>
-                    <button
-                      type="submit"
-                      aria-label="Sign out"
-                      style={{ color: "rgba(41, 47, 54, 0.85)" }}
-                      className="
-                        cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold
-                        hover:bg-[rgba(41,47,54,0.08)] hover:text-[#292F36]
-                        transition-all duration-200 ease-in-out
-                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
-                      "
-                    >
-                      <LogOut className="w-4 h-4" />
-                    </button>
-                  </form>
+                  <button
+                    type="button"
+                    onClick={() => setShowSignOutModal(true)}
+                    aria-label="Sign out"
+                    style={{ color: "rgba(41, 47, 54, 0.85)" }}
+                    className="
+                      cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold
+                      hover:bg-[rgba(41,47,54,0.08)] hover:text-[#292F36]
+                      transition-all duration-200 ease-in-out
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
+                    "
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
                   <span
                     aria-hidden="true"
                     className="h-5 w-px bg-[rgba(41,47,54,0.15)]"
@@ -225,7 +243,7 @@ export default function Header({
                       <circle cx="11" cy="11" r="7" />
                       <path d="m21 21-4.35-4.35" />
                     </svg>
-                    New Search
+                    {t("newSearch")}
                   </Link>
                 </>
               ) : (
@@ -246,7 +264,7 @@ export default function Header({
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
                     "
                   >
-                    Sign in
+                    {t("signIn")}
                   </Link>
                   <Link
                     href="/auth/sign-up"
@@ -270,7 +288,7 @@ export default function Header({
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60
                     "
                   >
-                    Create Account
+                    {t("createAccount")}
                   </Link>
                 </>
               )}
@@ -334,10 +352,9 @@ export default function Header({
             overflow: "hidden",
             transition:
               "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease",
-            backgroundColor: "#FAF5F1",
-            borderTop: menuOpen ? "1px solid rgba(41, 47, 54, 0.08)" : "none",
+            borderTop: menuOpen ? "1px solid var(--border-subtle)" : "none",
           }}
-          className="md:hidden"
+          className="md:hidden bg-[#FAF5F1] dark:bg-[#1A1E23]"
         >
           <nav
             aria-label="Mobile navigation"
@@ -392,26 +409,44 @@ export default function Header({
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
                     "
                   >
-                    Account
+                    {emailInitials ? (
+                      <span
+                        aria-hidden="true"
+                        className="flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-bold shadow-sm"
+                        style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+                      >
+                        {emailInitials}
+                      </span>
+                    ) : (
+                      <span
+                        aria-hidden="true"
+                        className="flex h-5 w-5 items-center justify-center rounded-full border border-[rgba(41,47,54,0.25)] bg-[rgba(41,47,54,0.05)]"
+                      >
+                        <User className="w-3 h-3" />
+                      </span>
+                    )}
+                    {t("account")}
                   </Link>
-                  <form action={signOut} className="flex-1">
-                    <button
-                      type="submit"
-                      style={{
-                        backgroundColor: "#A41F13",
-                        color: "#FAF5F1",
-                      }}
-                      className="
-                        w-full cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
-                        text-sm font-semibold
-                        hover:bg-[#8d1a0f] transition-all duration-150
-                        active:scale-[0.97]
-                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60
-                      "
-                    >
-                      <LogOut className="w-4 h-4" /> Sign out
-                    </button>
-                  </form>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setShowSignOutModal(true);
+                    }}
+                    style={{
+                      backgroundColor: "#A41F13",
+                      color: "#FAF5F1",
+                    }}
+                    className="
+                      w-full cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
+                      text-sm font-semibold
+                      hover:bg-[#8d1a0f] transition-all duration-150
+                      active:scale-[0.97]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60
+                    "
+                  >
+                    <LogOut className="w-4 h-4" /> {t("signOut")}
+                  </button>
                 </>
               ) : (
                 <>
@@ -432,7 +467,7 @@ export default function Header({
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
                     "
                   >
-                    Sign in
+                    {t("signIn")}
                   </Link>
                   <Link
                     href="/auth/sign-up"
@@ -455,7 +490,7 @@ export default function Header({
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60
                     "
                   >
-                    Create Account
+                    {t("createAccount")}
                   </Link>
                 </>
               )}
@@ -466,6 +501,106 @@ export default function Header({
 
       {/* Spacer so content doesn't hide under fixed header */}
       <div className="h-20" aria-hidden="true" />
+
+      {/* Sign Out Confirmation Modal */}
+      {showSignOutModal && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#292F36]/40 backdrop-blur-[2px]"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+        >
+          {/* Legal Notepad Container */}
+          <div 
+            style={{
+              backgroundColor: "#FFFFFF",
+              borderColor: "rgba(41, 47, 54, 0.08)",
+            }}
+            className="w-full max-w-[440px] relative flex flex-col rounded-[24px] border pl-12 pr-7 py-8 shadow-xl overflow-visible transform transition-all duration-200"
+          >
+            {/* Ruled Legal Notepad red margin line indicator */}
+            <div 
+              className="absolute top-0 bottom-0 left-7 w-[1.5px] bg-[#A41F13]/20" 
+              aria-hidden="true" 
+            />
+
+            {/* Memo/Sticky Tape adhesive graphic at top left */}
+            <div 
+              style={{ backgroundColor: "rgba(143, 122, 110, 0.1)" }}
+              className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-[#8F7A6E]/5 transform -rotate-1 rounded-sm"
+              aria-hidden="true"
+            />
+
+            {/* Sticky Page Marker / Document Tab (Scale icon badge) */}
+            <div
+              style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+              className="
+                absolute -top-3.5 right-6 
+                px-3.5 py-2 rounded-lg 
+                shadow-md shadow-[#A41F13]/10
+                transform rotate-2 
+                text-xs font-bold tracking-wide
+                flex items-center gap-1.5
+                shrink-0 select-none
+              "
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>{t("signOut")}</span>
+            </div>
+
+            {/* Modal Content */}
+            <div className="flex flex-col gap-4 mt-2">
+              <h2
+                id="modal-title"
+                className="text-[1.5rem] font-semibold leading-[1.25] tracking-tight"
+                style={{ color: "#292F36" }}
+              >
+                {t("confirmSignOutTitle")}
+              </h2>
+              <p
+                className="text-[14px] leading-relaxed font-normal"
+                style={{ color: "#8F7A6E" }}
+              >
+                {t("confirmSignOutDescription")}
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mt-6">
+              <button
+                type="button"
+                onClick={() => setShowSignOutModal(false)}
+                className="
+                  cursor-pointer w-full sm:w-auto px-4 py-2.5 rounded-lg text-sm font-semibold
+                  transition-all duration-150 ease-in-out
+                  hover:bg-[rgba(41,47,54,0.08)] active:scale-[0.97]
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
+                "
+                style={{ color: "rgba(41, 47, 54, 0.85)" }}
+              >
+                {t("cancel")}
+              </button>
+              
+              <form action={signOut} onSubmit={() => setShowSignOutModal(false)} className="w-full sm:w-auto">
+                <button
+                  type="submit"
+                  className="
+                    cursor-pointer w-full sm:w-auto inline-flex items-center justify-center gap-2
+                    px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide
+                    transition-all duration-200 ease-in-out
+                    hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-black/10
+                    active:scale-[0.97]
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60
+                  "
+                  style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+                >
+                  {t("confirmSignOut")}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

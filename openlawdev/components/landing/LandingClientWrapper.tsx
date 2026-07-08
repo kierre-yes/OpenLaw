@@ -12,8 +12,10 @@ import { useRouter } from "next/navigation";
 
 export default function LandingClientWrapper({
   isAuthenticated,
+  userEmail,
 }: {
   isAuthenticated: boolean;
+  userEmail?: string;
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -43,7 +45,7 @@ export default function LandingClientWrapper({
 
   return (
     <div className="flex flex-col min-h-screen font-sans">
-      <Header onLinkClick={handleLinkClick} isAuthenticated={isAuthenticated} />
+      <Header onLinkClick={handleLinkClick} isAuthenticated={isAuthenticated} userEmail={userEmail} />
       <main className="flex-1">
         <Hero isAuthenticated={isAuthenticated} />
         <Steps isAuthenticated={isAuthenticated} />
