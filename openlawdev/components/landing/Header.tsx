@@ -48,14 +48,17 @@ export default function Header({
         !link.href.startsWith("#") &&
         (pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)))
     );
-    if (matchingLink) {
-      setActiveLink(matchingLink.label);
-    } else if (pathname === "/" && !isAuthenticated) {
-      setActiveLink(t("howItWorks"));
-    } else {
-      setActiveLink("");
-    }
-  }, [pathname, isAuthenticated, navLinks]);
+    const timer = setTimeout(() => {
+      if (matchingLink) {
+        setActiveLink(matchingLink.label);
+      } else if (pathname === "/" && !isAuthenticated) {
+        setActiveLink(t("howItWorks"));
+      } else {
+        setActiveLink("");
+      }
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [pathname, isAuthenticated, navLinks, t]);
 
   const handleNavClick = (e: React.MouseEvent, href: string, label: string) => {
     // Only prevent default and intercept if it's an anchor link

@@ -5,6 +5,8 @@ import { DefaultChatTransport } from "ai";
 import { useEffect, useRef, useState } from "react";
 import { Search, Scale, FileText, Landmark } from "lucide-react";
 import { useTranslations } from "next-intl";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function SearchClient() {
   const t = useTranslations("Search");
@@ -21,10 +23,10 @@ export default function SearchClient() {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages.length]);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleFormSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault();
     if (!input.trim() || isLoading) return;
     sendMessage({ text: input });
     setInput("");
@@ -93,7 +95,7 @@ export default function SearchClient() {
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
-                handleFormSubmit(e as any);
+                handleFormSubmit();
               }
             }}
             placeholder={compact ? "Ask a follow-up question..." : t("placeholder")}
@@ -184,7 +186,7 @@ export default function SearchClient() {
   );
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-64px)]">
+    <div className="flex flex-col w-full h-[calc(100dvh-140px)]">
       {!hasMessages ? (
         // -----------------------------
         // EMPTY STATE (Centered Search)
@@ -223,11 +225,11 @@ export default function SearchClient() {
         // -----------------------------
         // CHAT STATE (Bottom Pinned Input)
         // -----------------------------
-        <div className="flex-1 w-full flex flex-col h-full relative">
+        <div className="flex-1 w-full flex flex-col h-full overflow-hidden">
           
           {/* Scrollable Messages Area */}
-          <div className="flex-1 overflow-y-auto w-full flex flex-col items-center px-5 sm:px-8 pt-10 pb-32 hide-scrollbar">
-            <div className="w-full max-w-3xl flex flex-col gap-8">
+          <div className="flex-1 overflow-y-auto w-full flex flex-col items-center px-5 sm:px-8 pt-6 pb-2 hide-scrollbar">
+            <div className="w-full max-w-3xl flex flex-col gap-6">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -248,11 +250,53 @@ export default function SearchClient() {
                         <Scale className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#FAF5F1]" />
                       </div>
                       {/* Assistant Text */}
-                      <div className="flex-1 flex flex-col gap-1 text-[15px] sm:text-[16px] leading-relaxed whitespace-pre-wrap text-[#292F36]">
+                      <div className="flex-1 flex flex-col gap-1 w-full min-w-0">
                         <div className="font-semibold text-[13px] sm:text-[14px] text-[#292F36]">OpenLaw</div>
-                        <div className="mt-1">
+                        <div className="mt-1 w-full overflow-hidden">
                           {message.parts.map((part, i) =>
-                            part.type === "text" ? <span key={i}>{part.text}</span> : null
+                            part.type === "text" ? (
+                              <ReactMarkdown
+                                key={i}
+                                remarkPlugins={[remarkGfm]}
+                                components={{
+                                  h1: ({node, ...props}) => <h1 className="text-[20px] sm:text-[24px] font-semibold text-[#292F36] mt-6 mb-3" {...props} />,
+                                  h2: ({node, ...props}) => <h2 className="text-[18px] sm:text-[20px] font-semibold text-[#292F36] mt-5 mb-2.5" {...props} />,
+                                  h3: ({node, ...props}) => <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#292F36] mt-4 mb-2" {...props} />,
+                                  p: ({node, ...props}) => <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#292F36] mb-4 last:mb-0 break-words" {...props} />,
+                                  ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-4 space-y-1.5 text-[15px] sm:text-[16px] text-[#292F36]" {...props} />,
+                                  ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-4 space-y-1.5 text-[15px] sm:text-[16px] text-[#292F36]" {...props} />,
+                                  li: ({node, ...props}) => <li className="pl-1 break-words" {...props} />,
+                                  strong: ({node, ...props}) => <strong className="font-semibold text-[#292F36]" {...props} />,
+                                  em: ({node, ...props}) => <em className="italic text-[#8F7A6E]" {...props} />,
+                                  a: ({node, ...props}) => <a className="text-[#A41F13] font-medium hover:underline cursor-pointer break-all" target="_blank" rel="noopener noreferrer" {...props} />,
+                                  blockquote: ({node, ...props}) => <blockquote className="border-l-[3px] border-[#A41F13]/40 pl-4 py-1.5 mb-4 italic text-[#8F7A6E] bg-[#E0DBD8]/20 rounded-r-lg" {...props} />,
+                                  code: ({node, className, children, ...props}: any) => {
+                                    const match = /language-(\w+)/.exec(className || "");
+                                    const isInline = !match && !String(children).includes("\n");
+                                    return isInline ? (
+                                      <code className="px-1.5 py-0.5 bg-[rgba(41,47,54,0.06)] text-[#A41F13] rounded-[4px] text-[13px] font-medium break-words" {...props}>
+                                        {children}
+                                      </code>
+                                    ) : (
+                                      <pre className="bg-[#292F36] text-[#FAF5F1] p-4 rounded-xl overflow-x-auto text-[13px] mb-4 border border-[rgba(250,245,241,0.1)]">
+                                        <code className={className} {...props}>
+                                          {children}
+                                        </code>
+                                      </pre>
+                                    );
+                                  },
+                                  table: ({node, ...props}) => (
+                                    <div className="w-full overflow-x-auto mb-4">
+                                      <table className="w-full text-left border-collapse text-[14px] sm:text-[15px]" {...props} />
+                                    </div>
+                                  ),
+                                  th: ({node, ...props}) => <th className="border-b-2 border-[#E0DBD8] px-4 py-3 font-semibold text-[#292F36] bg-[#FAF5F1]" {...props} />,
+                                  td: ({node, ...props}) => <td className="border-b border-[#E0DBD8] px-4 py-3 text-[#292F36]" {...props} />,
+                                }}
+                              >
+                                {part.text}
+                              </ReactMarkdown>
+                            ) : null
                           )}
                         </div>
                       </div>
@@ -272,12 +316,12 @@ export default function SearchClient() {
                   </div>
                 </div>
               )}
-              <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} className="h-4 shrink-0" />
             </div>
           </div>
 
           {/* Bottom Pinned Input Area */}
-          <div className="absolute bottom-0 left-0 right-0 w-full flex flex-col items-center px-5 sm:px-8 pb-8 pt-8 bg-gradient-to-t from-[#FAF5F1] via-[#FAF5F1] to-transparent">
+          <div className="shrink-0 w-full flex flex-col items-center px-5 sm:px-8 pb-6 pt-4 bg-[#FAF5F1] z-20 border-t border-[rgba(41,47,54,0.06)] shadow-[0_-15px_30px_-10px_rgba(250,245,241,1)]">
             <div className="w-full max-w-3xl">
               {renderNotepadForm(true)}
             </div>

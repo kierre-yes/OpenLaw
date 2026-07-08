@@ -4,16 +4,21 @@ import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY,
 });
-import { streamText, convertToModelMessages } from "ai";
+import { streamText } from "ai";
 import {
   generateEmbedding,
   searchChunks,
   supabaseAdmin,
   type RetrievedChunk,
 } from "@/lib/rag/retrieve";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(req: Request) {
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    const userId = user?.id || null;
+
     const body = await req.json();
     const rawMessages = body.messages;
 
@@ -32,17 +37,23 @@ export async function POST(req: Request) {
 
     const latestMessage = incomingMessages[incomingMessages.length - 1];
 
-    // Normalize content (handles complex multi-part messages)
-    const queryText =
-      typeof latestMessage.content === "string"
-        ? latestMessage.content
-        : Array.isArray(latestMessage.content)
-          ? latestMessage.content
-              .map((part: { type: string; text?: string }) =>
-                part.type === "text" ? part.text : "",
-              )
-              .join(" ")
-          : "";
+    // Normalize content (handles complex multi-part messages, including new UI parts format)
+    let queryText = "";
+    if (typeof latestMessage.content === "string") {
+      queryText = latestMessage.content;
+    } else if (Array.isArray(latestMessage.content)) {
+      queryText = latestMessage.content
+        .map((part: { type: string; text?: string }) =>
+          part.type === "text" ? part.text : "",
+        )
+        .join(" ");
+    } else if (Array.isArray(latestMessage.parts)) {
+      queryText = latestMessage.parts
+        .map((part: { type: string; text?: string }) =>
+          part.type === "text" ? part.text : "",
+        )
+        .join(" ");
+    }
 
     // 1. Generate embedding for the user query
     const embedding = await generateEmbedding(queryText);
@@ -71,10 +82,11 @@ export async function POST(req: Request) {
 
     // 4. Build system prompt
     const systemPrompt = `You are a Philippine Legal Assistant named OpenLaw.
-You MUST answer the user's question based ONLY on the following context.
-If the context does not contain the answer, say "I don't have enough information in my verifiable sources to answer that."
+For substantive legal questions or inquiries about Philippine law, you MUST answer based ONLY on the provided context. If the context does not contain the answer to a substantive question, say "I don't have enough information in my verifiable sources to answer that."
 
-When you provide facts from the context, please cite the [Source Title] and [Article/Section] appropriately so the user can verify it. Include a direct answer, a brief explanation, and the source citation. Refuse ONLY if the retrieved text does not contain relevant information.
+However, if the user is just saying a casual greeting (like "hello", "hi"), expressing gratitude ("thank you"), or asking about your identity ("who are you"), you MUST respond politely and conversationally without mentioning the context.
+
+When you provide facts from the context, please cite the [Source Title] and [Article/Section] appropriately so the user can verify it. Include a direct answer, a brief explanation, and the source citation. 
 
 Context:
 ${context || "No relevant legal context found."}
@@ -82,13 +94,44 @@ ${context || "No relevant legal context found."}
 
     console.log("[chat] Generated Context Length:", context.length);
 
+    interface MessagePart {
+      type: string;
+      text?: string;
+    }
+
+    interface IncomingMessage {
+      role: string;
+      content?: string | MessagePart[];
+      parts?: MessagePart[];
+    }
+
+    // Convert incoming messages to CoreMessage format manually to avoid library breaking changes
+    const modelMessages = incomingMessages
+      .filter((m: IncomingMessage) => m.role !== "system")
+      .map((m: IncomingMessage) => {
+        let content = "";
+        if (typeof m.content === "string") {
+          content = m.content;
+        } else if (Array.isArray(m.content)) {
+          content = m.content
+            .map((part) => (part.type === "text" ? (part.text ?? "") : ""))
+            .join("");
+        } else if (Array.isArray(m.parts)) {
+          content = m.parts
+            .map((part) => (part.type === "text" ? (part.text ?? "") : ""))
+            .join("");
+        }
+        return {
+          role: m.role,
+          content: content,
+        };
+      });
+
     // 5. Stream the response from OpenRouter
     const result = await streamText({
       model: openrouter("openrouter/free"), // Stable free routing
       system: systemPrompt,
-      messages: await convertToModelMessages(
-        incomingMessages.filter((m: { role: string }) => m.role !== "system"),
-      ),
+      messages: modelMessages,
       temperature: 0.1, // Low temperature for factual RAG responses
       async onFinish({ text }) {
         // Fire-and-forget: save to chat_sessions + chat_messages
@@ -99,7 +142,10 @@ ${context || "No relevant legal context found."}
           // Create session
           const { data: session } = await supabaseAdmin
             .from("chat_sessions")
-            .insert({ title: queryText.slice(0, 100) })
+            .insert({ 
+              title: queryText.slice(0, 100),
+              user_id: userId
+            })
             .select("id")
             .single();
 
