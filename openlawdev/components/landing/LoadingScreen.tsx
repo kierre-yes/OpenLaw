@@ -14,7 +14,8 @@ export default function LoadingScreen({ isLoading, onFinished }: LoadingScreenPr
   // Handle visibility transitions
   useEffect(() => {
     if (isLoading) {
-      setVisible(true);
+      const timer = setTimeout(() => setVisible(true), 0);
+      return () => clearTimeout(timer);
     } else {
       const timer = setTimeout(() => {
         setVisible(false);

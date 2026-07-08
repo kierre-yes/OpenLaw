@@ -55,7 +55,9 @@
     "clearFilter": "Clear search filter",
     "emptyTitle": "No research history",
     "emptyDesc": "Your previous legal queries and citations will appear here once you begin searching.",
-    "startSearching": "Start searching"
+    "startSearching": "Start searching",
+    "previous": "Previous",
+    "next": "Next"
   },
   "Sources": {
     "title": "Sources",

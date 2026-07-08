@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Trash2, Clock, MessageSquare, ChevronRight } from "lucide-react";
+import { Search, Trash2, Clock, MessageSquare, ChevronRight, ChevronLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type ChatSession = {
@@ -16,6 +16,8 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
   const t = useTranslations("History");
   const [historyList, setHistoryList] = useState<ChatSession[]>(initialSessions);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // Prevent opening the search when clicking delete
@@ -44,6 +46,16 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
     (item) =>
       (item.title || "").toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const totalPages = Math.max(1, Math.ceil(filteredHistory.length / ITEMS_PER_PAGE));
+  const paginatedHistory = filteredHistory.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   const getGroup = (createdAtStr: string): string => {
     const date = new Date(createdAtStr);
@@ -166,10 +178,10 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
 
               {/* History List Grouped by Recency */}
               <div className="flex flex-col mt-4 relative z-10">
-                {filteredHistory.length > 0 ? (
+                {paginatedHistory.length > 0 ? (
                   <div className="flex flex-col gap-8">
                     {groups.map((group) => {
-                      const groupItems = filteredHistory.filter((item) => getGroup(item.created_at) === group);
+                      const groupItems = paginatedHistory.filter((item) => getGroup(item.created_at) === group);
                       if (groupItems.length === 0) return null;
 
                       return (
@@ -272,6 +284,33 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
                       style={{ color: "#A41F13" }}
                     >
                       {t("clearFilter")}
+                    </button>
+                  </div>
+                )}
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-[rgba(41,47,54,0.06)]">
+                    <button
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-semibold text-[#8F7A6E] hover:bg-[rgba(41,47,54,0.04)] hover:text-[#292F36] disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors cursor-pointer"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      {t("previous") || "Previous"}
+                    </button>
+                    
+                    <span className="text-[13px] font-medium text-[#8F7A6E]">
+                      Page {currentPage} of {totalPages}
+                    </span>
+
+                    <button
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-semibold text-[#8F7A6E] hover:bg-[rgba(41,47,54,0.04)] hover:text-[#292F36] disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors cursor-pointer"
+                    >
+                      {t("next") || "Next"}
+                      <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
                 )}
