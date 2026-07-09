@@ -80,7 +80,7 @@ export async function signUp(
     email: rawEmail,
     password: rawPassword,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/auth/confirm`,
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/auth/callback`,
     },
   });
 
@@ -114,7 +114,7 @@ export async function forgotPassword(
 
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(rawEmail, {
-    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/auth/confirm?type=recovery`,
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/auth/callback?type=recovery`,
   });
 
   if (error) {
