@@ -4,7 +4,7 @@ import { Scale } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "OpenLaw — Sign In",
+  title: "OpenLaw - Sign In",
   description:
     "Access Philippine legal research powered by AI and grounded in exact sources.",
 };
@@ -103,7 +103,7 @@ export default function AuthLayout({
               className="text-[1.75rem] font-semibold leading-[1.25] tracking-tight"
               style={{ color: "#292F36" }}
             >
-              Research grounded in{" "}
+              Research backed by{" "}
               <span
                 className="underline underline-offset-[6px] decoration-[2.5px]"
                 style={{ color: "#A41F13", textDecorationColor: "#A41F13" }}
@@ -115,8 +115,8 @@ export default function AuthLayout({
               className="text-[14px] leading-relaxed font-normal"
               style={{ color: "#8F7A6E" }}
             >
-              Every answer cites the statute, case, or issuance it comes from.
-              No hallucinated law. No vague references.
+              Every answer cites the exact law or case it came from.
+              No made-up law. No vague references.
             </p>
           </div>
 
@@ -124,8 +124,8 @@ export default function AuthLayout({
           <ul className="flex flex-col gap-3.5 mt-1">
             {[
               "Statutes and Republic Acts",
-              "Supreme Court Jurisprudence",
-              "Executive and Legal Issuances",
+              "Supreme Court Decisions",
+              "Executive and Legal Orders",
             ].map((item) => (
               <li key={item} className="flex items-center gap-3">
                 <span
@@ -153,7 +153,7 @@ export default function AuthLayout({
           className="relative z-10 text-[11px] font-medium tracking-wide"
           style={{ color: "#8F7A6E" }}
         >
-          Built for legal research and source-grounded answers.
+          Built for legal research with source-backed answers.
         </p>
       </aside>
 

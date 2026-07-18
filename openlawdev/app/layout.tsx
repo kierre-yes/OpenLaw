@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "OpenLaw — Philippine Legal Research",
+  title: "OpenLaw - Philippine Legal Research",
   description:
     "Ask Philippine law questions and get grounded answers from the exact sources that matter.",
 };

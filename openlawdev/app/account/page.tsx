@@ -6,7 +6,7 @@ import { ArrowLeft, User, ShieldCheck, ShieldAlert, LogOut } from "lucide-react"
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "OpenLaw — Account",
+  title: "OpenLaw - Account",
 };
 
 export default async function AccountPage() {

@@ -2,42 +2,43 @@
 
 import { useState } from "react";
 import { ChevronDown, Search } from "lucide-react";
+import Link from "next/link";
 
 const faqs = [
   {
     question: "Does OpenLaw replace a lawyer?",
     answer:
-      "No. OpenLaw is a legal research tool, not a substitute for professional legal advice. It helps you find and understand Philippine laws and court decisions quickly, but it does not provide legal counsel. For matters that affect your rights or require legal action, always consult a licensed Philippine attorney.",
+      "No. OpenLaw is a legal research tool, not a lawyer. It helps you find Philippine laws and court decisions fast. But it does not give legal advice. For anything that affects your rights, talk to a licensed Philippine attorney.",
   },
   {
-    question: "What kinds of legal sources does OpenLaw cover?",
+    question: "What legal sources does OpenLaw cover?",
     answer:
-      "OpenLaw searches across Philippine statutes and Republic Acts, Supreme Court jurisprudence and G.R. decisions, and executive and administrative issuances. All sources are drawn from official Philippine legal databases.",
+      "OpenLaw searches Philippine statutes and Republic Acts, Supreme Court decisions, and executive and administrative orders. All sources come from official Philippine legal databases.",
   },
   {
     question: "Does every answer include a citation?",
     answer:
-      "Yes. Every answer is grounded in a specific source, which is shown directly beneath the result. You will see the statute number, G.R. number, or issuance title so you can locate and verify the original document yourself.",
+      "Yes. Every answer links to a specific source. You will see the law number, G.R. number, or order title. You can use that to find and read the original document yourself.",
   },
   {
     question: "How accurate are the answers?",
     answer:
-      "OpenLaw uses retrieval-augmented generation, which means answers are generated from actual legal texts rather than general knowledge. The system is designed to surface the most relevant passage and cite it. However, laws change over time, and you should always verify that the source cited is the current, in-force version.",
+      "OpenLaw pulls answers from real legal texts, not general knowledge. It finds the most relevant passage and cites it. But laws can change. Always check that the source cited is still the current version.",
   },
   {
-    question: "How should I verify the information OpenLaw provides?",
+    question: "How do I verify what OpenLaw gives me?",
     answer:
-      "Each answer includes a direct reference to the source document. You can open the original text from the result to confirm the exact wording. For critical legal matters, cross-check with the Official Gazette, the Supreme Court E-Library, or consult a lawyer.",
+      "Each answer shows its source. You can open the original text to check the exact words. For important legal matters, also check the Official Gazette or the Supreme Court E-Library, or ask a lawyer.",
   },
   {
-    question: "What happens if OpenLaw cannot find a relevant source?",
+    question: "What if OpenLaw can't find a source?",
     answer:
-      "If no relevant source is found, OpenLaw will tell you rather than fabricate an answer. You can try rephrasing your query, searching by statute name or G.R. number, or narrowing the subject of your question.",
+      "If no source is found, OpenLaw will say so. It will not make one up. Try rewording your question, using a law name or G.R. number, or narrowing your topic.",
   },
   {
-    question: "Can I search in plain language, or do I need legal terms?",
+    question: "Do I need to know legal terms to search?",
     answer:
-      "You can search in plain language. The app is designed to understand natural questions like 'What are the grounds for annulment in the Philippines?' You do not need to know specific legal citations before you start.",
+      "No. You can search in plain words. Try asking: 'What are the grounds for annulment in the Philippines?' You do not need to know any citations before you start.",
   },
 ];
 
@@ -140,12 +141,6 @@ export default function FAQ() {
 
           {/* ── LEFT: Section Header ── */}
           <div className="flex flex-col gap-5">
-            <p
-              style={{ color: "#A41F13" }}
-              className="text-[13px] lg:text-[14px] font-semibold tracking-widest mb-1 underline underline-offset-[5px] decoration-[2px] inline-block"
-            >
-              FAQs
-            </p>
             <h2
               style={{ color: "#292F36" }}
               className="text-3xl sm:text-4xl font-semibold leading-tight tracking-tight"
@@ -156,13 +151,13 @@ export default function FAQ() {
               style={{ color: "#8F7A6E" }}
               className="text-[15px] lg:text-[16px] font-normal leading-relaxed max-w-sm"
             >
-              Understand how the app works, what it covers, and what it cannot do before you start searching.
+              Learn what the app can do, what it covers, and what it cannot do.
             </p>
 
             {/* Desktop CTA — lives in sticky column */}
             <div className="hidden lg:flex flex-col items-start gap-4 mt-6">
-              <button
-                type="button"
+              <Link
+                href="/auth/sign-up"
                 style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
                 className="
                   cursor-pointer
@@ -175,8 +170,8 @@ export default function FAQ() {
                 "
               >
                 <Search className="w-4 h-4" />
-                Ask a legal question
-              </button>
+                Join Beta
+              </Link>
              
             </div>
           </div>
@@ -199,8 +194,8 @@ export default function FAQ() {
 
         {/* Mobile CTA — below accordion list */}
         <div className="flex lg:hidden flex-col items-start gap-4 mt-10">
-          <button
-            type="button"
+          <Link
+            href="/auth/sign-up"
             style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
             className="
               cursor-pointer
@@ -213,14 +208,8 @@ export default function FAQ() {
             "
           >
             <Search className="w-4 h-4" />
-            Ask a legal question
-          </button>
-          <p
-            style={{ color: "#8F7A6E" }}
-            className="text-[12px] font-medium"
-          >
-            No account required.
-          </p>
+            Join Beta
+          </Link>
         </div>
 
       </div>

@@ -19,60 +19,60 @@ const steps = [
   {
     number: "01",
     tabIcon: <FolderSearch className="w-4 h-4" />,
-    title: "Choose what you need",
-    description: "Select the type of legal source you are looking for.",
+    title: "Pick your source type",
+    description: "Choose the kind of legal source you need.",
     items: [
       {
         icon: <FileText className="w-4 h-4" />,
-        label: "Statutes & Republic Acts",
+        label: "Statutes and Republic Acts",
       },
       {
         icon: <Gavel className="w-4 h-4" />,
-        label: "Supreme Court Jurisprudence",
+        label: "Supreme Court Decisions",
       },
       {
         icon: <Scroll className="w-4 h-4" />,
-        label: "Executive & Legal Issuances",
+        label: "Executive and Legal Orders",
       },
     ],
   },
   {
     number: "02",
     tabIcon: <FileQuestion className="w-4 h-4" />,
-    title: "Ask a legal question",
-    description: "Type your question in plain language. No legal jargon needed.",
+    title: "Ask your question",
+    description: "Type in plain words. No legal terms needed.",
     items: [
       {
         icon: <MessageCircle className="w-4 h-4" />,
-        label: "Phrase it naturally",
+        label: "Write it like you would ask a friend",
       },
       {
         icon: <HelpCircle className="w-4 h-4" />,
-        label: "Ask about a law, right, or case",
+        label: "Ask about any law, right, or case",
       },
       {
         icon: <Sparkles className="w-4 h-4" />,
-        label: "AI finds the relevant sources",
+        label: "AI finds the right sources for you",
       },
     ],
   },
   {
     number: "03",
     tabIcon: <FileSignature className="w-4 h-4" />,
-    title: "Review grounded answers",
-    description: "Every answer comes with the exact source. Verify it yourself.",
+    title: "Review the cited answer",
+    description: "Every answer links to the exact source. Check it yourself.",
     items: [
       {
         icon: <CheckCircle2 className="w-4 h-4" />,
-        label: "Clear, direct answer grounded in law",
+        label: "Clear answer grounded in real law",
       },
       {
         icon: <Bookmark className="w-4 h-4" />,
-        label: "Exact citations & G.R. numbers",
+        label: "Exact citations and G.R. numbers",
       },
       {
         icon: <ExternalLink className="w-4 h-4" />,
-        label: "Open original source to verify",
+        label: "Open the original source to verify",
       },
     ],
   },
@@ -89,12 +89,6 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
 
         {/* Section Header */}
         <div className="mb-20 max-w-xl">
-          <p
-            style={{ color: "#A41F13" }}
-            className="text-[13px] lg:text-[14px] font-semibold tracking-widest mb-3 underline underline-offset-[5px] decoration-[2px] inline-block"
-          >
-            How the app works
-          </p>
           <h2
             style={{ color: "#292F36" }}
             className="text-3xl sm:text-4xl font-semibold leading-tight tracking-tight"
@@ -103,16 +97,18 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
           </h2>
         </div>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-8 mt-6">
-          {steps.map((step) => (
+        {/* Steps Grid (Asymmetric) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 mt-6">
+          {steps.map((step, idx) => (
             <article
               key={step.number}
               style={{
                 backgroundColor: "#FFFFFF",
                 borderColor: "rgba(41, 47, 54, 0.08)",
               }}
-              className="cursor-pointer relative flex flex-col gap-6 rounded-2xl border pl-12 pr-7 py-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 overflow-visible"
+              className={`cursor-pointer relative flex flex-col gap-6 rounded-2xl border pl-12 pr-7 py-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 overflow-visible ${
+                idx === 2 ? "lg:col-span-2 lg:flex-row lg:items-center lg:pl-16 lg:py-10" : ""
+              }`}
             >
               {/* Ruled Legal Notepad red margin line indicator */}
               <div 
@@ -145,7 +141,7 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
               </div>
 
               {/* Step Content */}
-              <div className="flex flex-col gap-3 mt-2">
+              <div className={`flex flex-col gap-3 mt-2 ${idx === 2 ? "lg:mt-0 lg:w-1/2 lg:pr-8" : ""}`}>
                 <h3
                   style={{ color: "#292F36" }}
                   className="text-lg font-semibold leading-snug"
@@ -161,9 +157,9 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
               </div>
 
               {/* Feature List */}
-              <ul className="flex flex-col gap-3 mt-1">
-                {step.items.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
+              <ul className={`flex flex-col gap-3 mt-1 ${idx === 2 ? "lg:w-1/2 lg:mt-0 lg:border-l lg:border-[rgba(41,47,54,0.08)] lg:pl-8" : ""}`}>
+                {step.items.map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
                     <span
                       style={{
                         color: "#A41F13",
@@ -189,7 +185,7 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
         {/* CTA */}
         <div className="mt-16 flex items-center gap-4 flex-wrap justify-start">
           <Link
-            href={isAuthenticated ? "/search" : "/auth/sign-up"}
+            href="/auth/sign-up"
             style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
             className="
               cursor-pointer
@@ -202,7 +198,7 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
             "
           >
             <Search className="w-4 h-4" />
-            {isAuthenticated ? "Start Searching" : "Sign Up to Search"}
+            Join Beta
           </Link>
           
         </div>

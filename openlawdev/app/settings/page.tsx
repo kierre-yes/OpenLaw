@@ -4,7 +4,7 @@ import SettingsClient from "./SettingsClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "OpenLaw — Settings",
+  title: "OpenLaw - Settings",
 };
 
 export default async function SettingsPage() {

@@ -48,8 +48,8 @@ export async function GET(request: Request) {
   }
 
   if (type === "recovery") {
-    // Password reset: take the user to the confirm page with recovery context
-    return NextResponse.redirect(`${siteUrl}/auth/confirm?type=recovery`);
+    // Password reset: take the user to the reset-password form
+    return NextResponse.redirect(`${siteUrl}/auth/reset-password`);
   }
 
   // Default: email confirmation

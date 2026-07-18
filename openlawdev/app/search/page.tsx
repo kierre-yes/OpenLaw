@@ -4,7 +4,7 @@ import SearchClient from "./SearchClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "OpenLaw — Search",
+  title: "OpenLaw - Search",
 };
 
 export default async function SearchPage() {

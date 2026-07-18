@@ -4,7 +4,7 @@ import SourcesClient from "./SourcesClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "OpenLaw — Sources",
+  title: "OpenLaw - Sources",
 };
 
 export default async function SourcesPage() {
