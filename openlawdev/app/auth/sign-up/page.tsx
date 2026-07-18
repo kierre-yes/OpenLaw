@@ -92,17 +92,17 @@ export default function SignUpPage() {
 
     if (score === 1) {
       return {
-        label: "Weak — make it longer, add numbers or mixed case",
+        label: "Weak - make it longer, add numbers or mixed case",
         color: "#A41F13",
       };
     }
     if (score === 2) {
       return {
-        label: "Medium — add symbols or uppercase letters for better security",
+        label: "Medium - add symbols or uppercase letters for better security",
         color: "#8F7A6E",
       };
     }
-    return { label: "Strong — secure password", color: "#292F36" };
+    return { label: "Strong - secure password", color: "#292F36" };
   };
 
   const strength = getPasswordStrength(password);

@@ -70,8 +70,8 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
               style={{ color: "rgba(250, 245, 241, 0.55)" }}
               className="text-[13px] font-normal leading-relaxed max-w-xs"
             >
-              Search Philippine statutes, jurisprudence, and legal issuances.
-              Every answer is grounded in the exact source that answers your question.
+              Search Philippine laws, court rulings, and legal orders.
+              Every answer shows the exact source it came from.
             </p>
 
             {/* Disclaimer note */}
@@ -82,8 +82,8 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
               }}
               className="text-[11px] font-normal leading-relaxed max-w-xs border-t pt-4 mt-auto"
             >
-              OpenLaw is a legal research tool only. It does not provide legal advice
-              and does not replace a licensed Philippine attorney.
+              OpenLaw is for research only. It does not give legal advice
+              and is not a replacement for a licensed Philippine attorney.
             </p>
           </div>
 
@@ -141,7 +141,7 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
                         whitespace-nowrap z-40 rounded-lg
                       "
                     >
-                      Will be filled in next update, Stay Tuned!!!
+                      Coming soon. Stay tuned.
                     </div>
                   </div>
                 )}
@@ -202,8 +202,8 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
             {/* Scale icon mark */}
             <span
               style={{ color: "rgba(164, 31, 19, 0.7)" }}
-              aria-label="OpenLaw — Philippine Legal Research"
-              title="OpenLaw — Philippine Legal Research"
+              aria-label="OpenLaw - Philippine Legal Research"
+              title="OpenLaw - Philippine Legal Research"
             >
               <Scale className="w-4 h-4" />
             </span>

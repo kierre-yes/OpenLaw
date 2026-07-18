@@ -123,8 +123,37 @@ export async function forgotPassword(
 
   return {
     message:
-      "Reset link sent. Check your email — the link is valid for one hour.",
+      "Reset link sent. Check your email - the link is valid for one hour.",
   };
+}
+
+/* ─────────────────────────────────────────
+   Update password (after recovery link)
+───────────────────────────────────────── */
+
+export async function updatePassword(
+  _prevState: ActionResult,
+  formData: FormData
+): Promise<ActionResult> {
+  const rawPassword = formData.get("password") as string;
+  const rawConfirm = formData.get("confirm") as string;
+
+  const passwordParse = passwordSchema.safeParse(rawPassword);
+  if (!passwordParse.success)
+    return { error: passwordParse.error.issues[0].message };
+
+  if (rawPassword !== rawConfirm) {
+    return { error: "Passwords do not match." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.updateUser({ password: rawPassword });
+
+  if (error) {
+    return { error: "Could not update your password. Please try again." };
+  }
+
+  redirect("/search");
 }
 
 /* ─────────────────────────────────────────

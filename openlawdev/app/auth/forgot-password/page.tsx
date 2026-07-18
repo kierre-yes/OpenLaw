@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
                 className="text-[14px] leading-relaxed max-w-xs mx-auto"
                 style={{ color: "#8F7A6E" }}
               >
-                Check your inbox for the reset link. It expires in one hour.
+                Check your inbox for a reset link. It will expire in one hour.
               </p>
             </div>
           </div>
@@ -91,14 +91,11 @@ export default function ForgotPasswordPage() {
             </p>
             {[
               "Check your spam or junk folder.",
-              "The link is valid for one hour only.",
-              "Make sure the email matches your account.",
+              "The link works for one hour only.",
+              "Use the same email tied to your account.",
             ].map((tip) => (
-              <p
-                key={tip}
-                className="flex items-start gap-2.5 text-[13px] leading-snug"
-                style={{ color: "#292F36" }}
-              >
+              <p key={tip} className="flex items-start gap-2.5 text-[13px] leading-snug" style={{ color: "#292F36" }}>
+
                 <span
                   className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
                   style={{ backgroundColor: "#A41F13" }}
@@ -130,8 +127,8 @@ export default function ForgotPasswordPage() {
               Reset your password
             </h2>
             <p className="text-[14px] leading-relaxed" style={{ color: "#8F7A6E" }}>
-              Enter the email linked to your account. We&apos;ll send a one-time
-              reset link that expires in one hour.
+              Enter the email for your account. We&apos;ll send you a link to
+              reset your password. The link expires in one hour.
             </p>
           </div>
 

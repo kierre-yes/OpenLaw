@@ -3,7 +3,7 @@ import { Mail, ArrowRight, AlertTriangle, CheckCircle2 } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "OpenLaw — Confirm your email",
+  title: "OpenLaw - Confirm your email",
 };
 
 export default async function ConfirmPage({
@@ -38,8 +38,8 @@ export default async function ConfirmPage({
               className="text-[14px] leading-relaxed max-w-xs mx-auto"
               style={{ color: "#8F7A6E" }}
             >
-              This confirmation link has expired or has already been used.
-              Request a new one to continue.
+              This link has expired or been used already.
+              Ask for a new one to continue.
             </p>
           </div>
         </div>
@@ -173,15 +173,11 @@ export default async function ConfirmPage({
           What to expect
         </p>
         {[
-          "Check your spam or junk folder if you don't see it.",
+          "Check your spam folder if you don't see it.",
           "The link expires in 24 hours.",
           "You only need to confirm once.",
         ].map((tip) => (
-          <p
-            key={tip}
-            className="flex items-start gap-2.5 text-[13px] leading-snug"
-            style={{ color: "#292F36" }}
-          >
+          <p key={tip} className="flex items-start gap-2.5 text-[13px] leading-snug" style={{ color: "#292F36" }}>
             <span
               className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
               style={{ backgroundColor: "#A41F13" }}

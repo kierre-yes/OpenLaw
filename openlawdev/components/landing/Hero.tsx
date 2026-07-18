@@ -18,14 +18,14 @@ export default function Hero({ isAuthenticated = false }: { isAuthenticated?: bo
               className="text-4xl sm:text-5xl lg:text-[3.25rem] leading-[1.15] font-semibold tracking-tight max-w-xl"
               style={{ color: "#292F36" }}
             >
-              Ask Philippine law questions and get grounded answers from the{" "}
+              Ask about Philippine law. Get answers from the{" "}
               <span
                 className="underline underline-offset-[6px] decoration-[3px] font-bold text-[1.06em] inline-block"
                 style={{ color: "#A41F13" }}
               >
-                exact sources
+                exact source
               </span>{" "}
-              that matter.
+              that matters.
             </h1>
 
             {/* Supporting paragraph */}
@@ -33,14 +33,13 @@ export default function Hero({ isAuthenticated = false }: { isAuthenticated?: bo
               className="mt-6 text-lg leading-relaxed max-w-xl font-normal"
               style={{ color: "#8F7A6E" }}
             >
-              Search statutes, jurisprudence, and legal issuances with AI that always shows its sources.
+              Search laws, court rulings, and legal orders. AI finds the source and shows it to you.
             </p>
 
             {/* CTA Buttons */}
             <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
-              {/* Primary CTA */}
               <Link
-                href={isAuthenticated ? "/search" : "/auth/sign-up"}
+                href="/auth/sign-up"
                 style={{
                   backgroundColor: "#A41F13",
                   color: "#FAF5F1",
@@ -69,7 +68,7 @@ export default function Hero({ isAuthenticated = false }: { isAuthenticated?: bo
                   <circle cx="11" cy="11" r="7" />
                   <path d="m21 21-4.35-4.35" />
                 </svg>
-                {isAuthenticated ? "Start Searching" : "Sign Up to Search"}
+                Join Beta
               </Link>
 
               {/* Secondary CTA */}
@@ -94,14 +93,6 @@ export default function Hero({ isAuthenticated = false }: { isAuthenticated?: bo
                 See How It Works
               </Link>
             </div>
-
-            {/* Trust line */}
-            <p
-              className="mt-8 text-xs font-medium tracking-wide"
-              style={{ color: "rgba(143, 122, 110, 0.7)" }}
-            >
-              Sourced from official Philippine legal databases
-            </p>
           </div>
 
           {/* ── RIGHT: Visual Element (Legal Notepad File Style) ── */}

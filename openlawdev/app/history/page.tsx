@@ -4,7 +4,7 @@ import HistoryClient from "./HistoryClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "OpenLaw — History",
+  title: "OpenLaw - History",
 };
 
 export default async function HistoryPage() {
