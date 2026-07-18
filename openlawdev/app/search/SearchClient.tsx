@@ -238,9 +238,11 @@ export default function SearchClient() {
                   {message.role === "user" ? (
                     // User Message Bubble (Right aligned, subtle background)
                     <div className="max-w-[85%] sm:max-w-[75%] px-5 py-3.5 rounded-[20px] bg-[#E0DBD8]/50 text-[#292F36] text-[15px] sm:text-[16px] leading-relaxed whitespace-pre-wrap">
-                      {message.parts.map((part, i) =>
-                        part.type === "text" ? <span key={i}>{part.text}</span> : null
-                      )}
+                      {message.parts?.length
+                        ? message.parts.map((part, i) =>
+                            part.type === "text" ? <span key={i}>{part.text}</span> : null
+                          )
+                        : message.content}
                     </div>
                   ) : (
                     // Assistant Message (Left aligned with Avatar)
@@ -253,50 +255,93 @@ export default function SearchClient() {
                       <div className="flex-1 flex flex-col gap-1 w-full min-w-0">
                         <div className="font-semibold text-[13px] sm:text-[14px] text-[#292F36]">OpenLaw</div>
                         <div className="mt-1 w-full overflow-hidden">
-                          {message.parts.map((part, i) =>
-                            part.type === "text" ? (
-                              <ReactMarkdown
-                                key={i}
-                                remarkPlugins={[remarkGfm]}
-                                components={{
-                                  h1: ({node, ...props}) => <h1 className="text-[20px] sm:text-[24px] font-semibold text-[#292F36] mt-6 mb-3" {...props} />,
-                                  h2: ({node, ...props}) => <h2 className="text-[18px] sm:text-[20px] font-semibold text-[#292F36] mt-5 mb-2.5" {...props} />,
-                                  h3: ({node, ...props}) => <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#292F36] mt-4 mb-2" {...props} />,
-                                  p: ({node, ...props}) => <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#292F36] mb-4 last:mb-0 break-words" {...props} />,
-                                  ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-4 space-y-1.5 text-[15px] sm:text-[16px] text-[#292F36]" {...props} />,
-                                  ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-4 space-y-1.5 text-[15px] sm:text-[16px] text-[#292F36]" {...props} />,
-                                  li: ({node, ...props}) => <li className="pl-1 break-words" {...props} />,
-                                  strong: ({node, ...props}) => <strong className="font-semibold text-[#292F36]" {...props} />,
-                                  em: ({node, ...props}) => <em className="italic text-[#8F7A6E]" {...props} />,
-                                  a: ({node, ...props}) => <a className="text-[#A41F13] font-medium hover:underline cursor-pointer break-all" target="_blank" rel="noopener noreferrer" {...props} />,
-                                  blockquote: ({node, ...props}) => <blockquote className="border-l-[3px] border-[#A41F13]/40 pl-4 py-1.5 mb-4 italic text-[#8F7A6E] bg-[#E0DBD8]/20 rounded-r-lg" {...props} />,
-                                  code: ({node, className, children, ...props}: any) => {
-                                    const match = /language-(\w+)/.exec(className || "");
-                                    const isInline = !match && !String(children).includes("\n");
-                                    return isInline ? (
-                                      <code className="px-1.5 py-0.5 bg-[rgba(41,47,54,0.06)] text-[#A41F13] rounded-[4px] text-[13px] font-medium break-words" {...props}>
-                                        {children}
-                                      </code>
-                                    ) : (
-                                      <pre className="bg-[#292F36] text-[#FAF5F1] p-4 rounded-xl overflow-x-auto text-[13px] mb-4 border border-[rgba(250,245,241,0.1)]">
-                                        <code className={className} {...props}>
+                          {message.parts?.length ? (
+                            message.parts.map((part, i) =>
+                              part.type === "text" ? (
+                                <ReactMarkdown
+                                  key={i}
+                                  remarkPlugins={[remarkGfm]}
+                                  components={{
+                                    h1: ({node, ...props}) => <h1 className="text-[20px] sm:text-[24px] font-semibold text-[#292F36] mt-6 mb-3" {...props} />,
+                                    h2: ({node, ...props}) => <h2 className="text-[18px] sm:text-[20px] font-semibold text-[#292F36] mt-5 mb-2.5" {...props} />,
+                                    h3: ({node, ...props}) => <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#292F36] mt-4 mb-2" {...props} />,
+                                    p: ({node, ...props}) => <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#292F36] mb-4 last:mb-0 break-words" {...props} />,
+                                    ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-4 space-y-1.5 text-[15px] sm:text-[16px] text-[#292F36]" {...props} />,
+                                    ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-4 space-y-1.5 text-[15px] sm:text-[16px] text-[#292F36]" {...props} />,
+                                    li: ({node, ...props}) => <li className="pl-1 break-words" {...props} />,
+                                    strong: ({node, ...props}) => <strong className="font-semibold text-[#292F36]" {...props} />,
+                                    em: ({node, ...props}) => <em className="italic text-[#8F7A6E]" {...props} />,
+                                    a: ({node, ...props}) => <a className="text-[#A41F13] font-medium hover:underline cursor-pointer break-all" target="_blank" rel="noopener noreferrer" {...props} />,
+                                    blockquote: ({node, ...props}) => <blockquote className="border-l-[3px] border-[#A41F13]/40 pl-4 py-1.5 mb-4 italic text-[#8F7A6E] bg-[#E0DBD8]/20 rounded-r-lg" {...props} />,
+                                    code: ({node, className, children, ...props}: any) => {
+                                      const match = /language-(\w+)/.exec(className || "");
+                                      const isInline = !match && !String(children).includes("\n");
+                                      return isInline ? (
+                                        <code className="px-1.5 py-0.5 bg-[rgba(41,47,54,0.06)] text-[#A41F13] rounded-[4px] text-[13px] font-medium break-words" {...props}>
                                           {children}
                                         </code>
-                                      </pre>
-                                    );
-                                  },
-                                  table: ({node, ...props}) => (
-                                    <div className="w-full overflow-x-auto mb-4">
-                                      <table className="w-full text-left border-collapse text-[14px] sm:text-[15px]" {...props} />
-                                    </div>
-                                  ),
-                                  th: ({node, ...props}) => <th className="border-b-2 border-[#E0DBD8] px-4 py-3 font-semibold text-[#292F36] bg-[#FAF5F1]" {...props} />,
-                                  td: ({node, ...props}) => <td className="border-b border-[#E0DBD8] px-4 py-3 text-[#292F36]" {...props} />,
-                                }}
-                              >
-                                {part.text}
-                              </ReactMarkdown>
-                            ) : null
+                                      ) : (
+                                        <pre className="bg-[#292F36] text-[#FAF5F1] p-4 rounded-xl overflow-x-auto text-[13px] mb-4 border border-[rgba(250,245,241,0.1)]">
+                                          <code className={className} {...props}>
+                                            {children}
+                                          </code>
+                                        </pre>
+                                      );
+                                    },
+                                    table: ({node, ...props}) => (
+                                      <div className="w-full overflow-x-auto mb-4">
+                                        <table className="w-full text-left border-collapse text-[14px] sm:text-[15px]" {...props} />
+                                      </div>
+                                    ),
+                                    th: ({node, ...props}) => <th className="border-b-2 border-[#E0DBD8] px-4 py-3 font-semibold text-[#292F36] bg-[#FAF5F1]" {...props} />,
+                                    td: ({node, ...props}) => <td className="border-b border-[#E0DBD8] px-4 py-3 text-[#292F36]" {...props} />,
+                                  }}
+                                >
+                                  {part.text}
+                                </ReactMarkdown>
+                              ) : null
+                            )
+                          ) : (
+                            <ReactMarkdown
+                              remarkPlugins={[remarkGfm]}
+                              components={{
+                                h1: ({node, ...props}) => <h1 className="text-[20px] sm:text-[24px] font-semibold text-[#292F36] mt-6 mb-3" {...props} />,
+                                h2: ({node, ...props}) => <h2 className="text-[18px] sm:text-[20px] font-semibold text-[#292F36] mt-5 mb-2.5" {...props} />,
+                                h3: ({node, ...props}) => <h3 className="text-[16px] sm:text-[18px] font-semibold text-[#292F36] mt-4 mb-2" {...props} />,
+                                p: ({node, ...props}) => <p className="text-[15px] sm:text-[16px] leading-relaxed text-[#292F36] mb-4 last:mb-0 break-words" {...props} />,
+                                ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-4 space-y-1.5 text-[15px] sm:text-[16px] text-[#292F36]" {...props} />,
+                                ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-4 space-y-1.5 text-[15px] sm:text-[16px] text-[#292F36]" {...props} />,
+                                li: ({node, ...props}) => <li className="pl-1 break-words" {...props} />,
+                                strong: ({node, ...props}) => <strong className="font-semibold text-[#292F36]" {...props} />,
+                                em: ({node, ...props}) => <em className="italic text-[#8F7A6E]" {...props} />,
+                                a: ({node, ...props}) => <a className="text-[#A41F13] font-medium hover:underline cursor-pointer break-all" target="_blank" rel="noopener noreferrer" {...props} />,
+                                blockquote: ({node, ...props}) => <blockquote className="border-l-[3px] border-[#A41F13]/40 pl-4 py-1.5 mb-4 italic text-[#8F7A6E] bg-[#E0DBD8]/20 rounded-r-lg" {...props} />,
+                                code: ({node, className, children, ...props}: any) => {
+                                  const match = /language-(\w+)/.exec(className || "");
+                                  const isInline = !match && !String(children).includes("\n");
+                                  return isInline ? (
+                                    <code className="px-1.5 py-0.5 bg-[rgba(41,47,54,0.06)] text-[#A41F13] rounded-[4px] text-[13px] font-medium break-words" {...props}>
+                                      {children}
+                                    </code>
+                                  ) : (
+                                    <pre className="bg-[#292F36] text-[#FAF5F1] p-4 rounded-xl overflow-x-auto text-[13px] mb-4 border border-[rgba(250,245,241,0.1)]">
+                                      <code className={className} {...props}>
+                                        {children}
+                                      </code>
+                                    </pre>
+                                  );
+                                },
+                                table: ({node, ...props}) => (
+                                  <div className="w-full overflow-x-auto mb-4">
+                                    <table className="w-full text-left border-collapse text-[14px] sm:text-[15px]" {...props} />
+                                  </div>
+                                ),
+                                th: ({node, ...props}) => <th className="border-b-2 border-[#E0DBD8] px-4 py-3 font-semibold text-[#292F36] bg-[#FAF5F1]" {...props} />,
+                                td: ({node, ...props}) => <td className="border-b border-[#E0DBD8] px-4 py-3 text-[#292F36]" {...props} />,
+                              }}
+                            >
+                              {message.content}
+                            </ReactMarkdown>
                           )}
                         </div>
                       </div>
