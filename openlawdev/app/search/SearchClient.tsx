@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -146,36 +146,42 @@ export default function SearchClient() {
     </div>
   );
 
-  // Reasoning block - no emoji, clean label, collapsible
+  // Reasoning block - premium editorial accordion
   const ReasoningBlock = ({ text }: { text: string }) => (
-    <details className="mb-5 group">
-      <summary className="cursor-pointer select-none list-none inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold tracking-widest uppercase transition-colors" style={{ backgroundColor: "var(--color-border-subtle)", color: "var(--color-text-secondary)" }}>
-        <BookOpen className="w-3.5 h-3.5 shrink-0" />
-        <span>Reasoning</span>
-        <ChevronDown className="w-3 h-3 opacity-50 group-open:rotate-180 transition-transform duration-200 ml-0.5" />
+    <details className="mb-8 group border-y" style={{ borderColor: "var(--color-border-subtle)" }}>
+      <summary className="cursor-pointer select-none list-none flex items-center justify-between py-4 transition-colors hover:opacity-70">
+        <div className="flex items-center gap-3">
+          <BookOpen className="w-4 h-4 opacity-80" style={{ color: "var(--color-brand-red)" }} />
+          <span className="text-[12px] font-medium tracking-[0.15em] uppercase" style={{ color: "var(--color-text-primary)" }}>Analysis Process</span>
+        </div>
+        <ChevronDown className="w-4 h-4 opacity-50 group-open:rotate-180 transition-transform duration-300" style={{ color: "var(--color-text-primary)" }} />
       </summary>
-      <div className="mt-3 p-4 rounded-lg text-[13px] leading-relaxed whitespace-pre-wrap border-l-2" style={{ backgroundColor: "rgba(41,47,54,0.03)", borderColor: "var(--color-border-subtle)", color: "var(--color-text-secondary)" }}>
+      <div className="pb-6 pt-2 text-[14px] leading-[1.8] whitespace-pre-wrap max-w-[65ch]" style={{ color: "var(--color-text-secondary)" }}>
         {text}
       </div>
     </details>
   );
 
-  // Loading indicator - minimal, 3 staggered dots
+  // Loading indicator - skeletal loader matching editorial layout
   const LoadingPulse = () => (
-    <div className="flex items-center gap-1.5 py-2 px-1">
-      {[0, 1, 2].map((i) => (
-        <span key={i} className="block w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: "var(--color-brand-red)", opacity: 0.5, animationDelay: `${i * 120}ms` }} />
-      ))}
+    <div className="flex flex-col gap-4 w-full animate-pulse pt-2 max-w-[65ch]">
+      <div className="h-4 w-full rounded-sm" style={{ backgroundColor: "var(--color-border-subtle)" }} />
+      <div className="h-4 w-[92%] rounded-sm" style={{ backgroundColor: "var(--color-border-subtle)" }} />
+      <div className="h-4 w-[85%] rounded-sm" style={{ backgroundColor: "var(--color-border-subtle)" }} />
+      <div className="h-4 w-[60%] rounded-sm" style={{ backgroundColor: "var(--color-border-subtle)" }} />
     </div>
   );
 
-  // Shared assistant identity column
+  // Editorial byline identity
   const AssistantIdentity = () => (
-    <div className="flex items-center gap-2.5 sm:w-[120px] shrink-0 sm:pt-0.5">
-      <div className="w-7 h-7 rounded-full flex items-center justify-center shadow-sm shrink-0" style={{ backgroundColor: "var(--color-brand-red)" }}>
-        <Scale className="w-3.5 h-3.5" style={{ color: "var(--color-text-inverse)" }} />
+    <div className="flex flex-col gap-3">
+      <div className="w-8 h-8 flex items-center justify-center shadow-sm" style={{ backgroundColor: "var(--color-brand-red)" }}>
+        <Scale className="w-4 h-4" style={{ color: "var(--color-text-inverse)" }} />
       </div>
-      <span className="text-[13px] font-semibold tracking-wide" style={{ color: "var(--color-text-primary)" }}>OpenLaw</span>
+      <div>
+        <div className="text-[14px] font-semibold tracking-tight" style={{ color: "var(--color-text-primary)" }}>OpenLaw</div>
+        <div className="text-[12px] mt-0.5 opacity-70" style={{ color: "var(--color-text-secondary)" }}>Legal Analysis</div>
+      </div>
     </div>
   );
 
@@ -200,54 +206,78 @@ export default function SearchClient() {
 
           {/* Scrollable messages */}
           <div className="flex-1 overflow-y-auto w-full flex flex-col items-center px-5 sm:px-8 pt-6 pb-2 hide-scrollbar">
-            <div className="w-full max-w-3xl flex flex-col">
+            <div className="w-full max-w-4xl flex flex-col">
 
-              {messages.map((message) => (
-                <div key={message.id} className="w-full">
-                  {message.role === "user" ? (
-                    // User - editorial right-aligned, no bubble
-                    <div className="ml-auto mt-8 mb-2 text-right max-w-[80%]">
-                      <p className="text-[18px] sm:text-[20px] font-medium tracking-tight leading-snug whitespace-pre-wrap" style={{ color: "var(--color-text-primary)" }}>
+              {messages.map((message, index) => {
+                if (message.role === "user") {
+                  return (
+                    <div key={message.id} className="w-full pt-16 pb-12 border-t" style={{ borderColor: "var(--color-border-subtle)" }}>
+                      <h2 className="text-[24px] sm:text-[32px] md:text-[36px] font-medium tracking-tight leading-tight max-w-[45ch]" style={{ color: "var(--color-text-primary)" }}>
                         {message.parts?.length
                           ? message.parts.map((part, i) => part.type === "text" ? <span key={i}>{part.text}</span> : null)
                           : (message as any).content}
-                      </p>
+                      </h2>
                     </div>
-                  ) : (
-                    // Assistant - full-width transcript layout
-                    <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 py-8 border-b" style={{ borderColor: "var(--color-border-subtle)" }}>
-                      <AssistantIdentity />
-                      <div className="flex-1 min-w-0 w-full">
-                        {message.parts?.length ? (
-                          message.parts.map((part: any, i: number) => {
-                            if (part.type === "reasoning") {
-                              const text = part.reasoning || part.text || part.content || (part.details && JSON.stringify(part.details)) || "";
-                              return text ? <ReasoningBlock key={i} text={text} /> : null;
-                            }
-                            if (part.type === "text") {
-                              const clean = stripThinkTags(part.text);
-                              return clean ? (
-                                <ReactMarkdown key={i} remarkPlugins={[remarkGfm]} components={markdownComponents}>{clean}</ReactMarkdown>
-                              ) : null;
-                            }
-                            return null; // tool-invocation - intentionally silent
-                          })
-                        ) : (
-                          <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                            {stripThinkTags((message as any).content || "")}
-                          </ReactMarkdown>
-                        )}
+                  );
+                }
+
+                // Assistant - editorial split layout
+                let hasVisibleParts = false;
+                const cleanContent = stripThinkTags((message as any).content || "");
+
+                if (message.parts?.length) {
+                  hasVisibleParts = message.parts.some((p: any) => 
+                    (p.type === "text" && stripThinkTags(p.text)) || p.type === "reasoning"
+                  );
+                } else {
+                  hasVisibleParts = !!cleanContent;
+                }
+
+                const showLoading = isLoading && index === messages.length - 1 && !hasVisibleParts;
+
+                return (
+                  <div key={message.id} className="w-full pb-24 flex flex-col md:flex-row gap-8 md:gap-16">
+                    <div className="w-full md:w-[200px] shrink-0">
+                      <div className="border-t pt-5" style={{ borderColor: "var(--color-text-primary)" }}>
+                        <AssistantIdentity />
                       </div>
                     </div>
-                  )}
-                </div>
-              ))}
+                    <div className="flex-1 min-w-0 w-full max-w-[65ch]">
+                      {showLoading ? (
+                        <div className="flex items-start w-full"><LoadingPulse /></div>
+                      ) : message.parts?.length ? (
+                        message.parts.map((part: any, i: number) => {
+                          if (part.type === "reasoning") {
+                            const text = part.reasoning || part.text || part.content || (part.details && JSON.stringify(part.details)) || "";
+                            return text ? <ReasoningBlock key={i} text={text} /> : null;
+                          }
+                          if (part.type === "text") {
+                            const clean = stripThinkTags(part.text);
+                            return clean ? (
+                              <ReactMarkdown key={i} remarkPlugins={[remarkGfm]} components={markdownComponents}>{clean}</ReactMarkdown>
+                            ) : null;
+                          }
+                          return null;
+                        })
+                      ) : (
+                        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+                          {cleanContent}
+                        </ReactMarkdown>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
 
-              {/* Loading state */}
+              {/* Loading state for when user just submitted and assistant message hasn't appeared in array yet */}
               {isLoading && messages.length > 0 && messages[messages.length - 1].role === "user" && (
-                <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 py-8 border-b" style={{ borderColor: "var(--color-border-subtle)" }}>
-                  <AssistantIdentity />
-                  <div className="flex-1 min-w-0 flex items-center"><LoadingPulse /></div>
+                <div className="w-full pb-24 flex flex-col md:flex-row gap-8 md:gap-16">
+                  <div className="w-full md:w-[200px] shrink-0">
+                    <div className="border-t pt-5" style={{ borderColor: "var(--color-text-primary)" }}>
+                      <AssistantIdentity />
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0 flex items-start w-full max-w-[65ch]"><LoadingPulse /></div>
                 </div>
               )}
 
@@ -257,7 +287,7 @@ export default function SearchClient() {
 
           {/* Pinned input bar */}
           <div className="shrink-0 w-full flex flex-col items-center px-5 sm:px-8 pb-6 pt-4 z-20 border-t" style={{ backgroundColor: "var(--color-page-bg)", borderColor: "var(--color-border-subtle)", boxShadow: "0 -12px 24px -8px var(--color-page-bg)" }}>
-            <div className="w-full max-w-3xl">{renderNotepadForm(true)}</div>
+            <div className="w-full max-w-4xl">{renderNotepadForm(true)}</div>
             <p className="mt-3 text-[11px] font-medium text-center" style={{ color: "var(--color-text-secondary)" }}>
               OpenLaw is an AI Legal Assistant and can make mistakes. Always verify information.
             </p>

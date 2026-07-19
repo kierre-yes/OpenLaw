@@ -35,10 +35,8 @@ const footerLinks = [
 export default function Footer({ isAuthenticated = false }: { isAuthenticated?: boolean }) {
   const currentYear = new Date().getFullYear();
 
-  // Filter out the Product column if the user is not authenticated
-  const visibleFooterLinks = isAuthenticated 
-    ? footerLinks 
-    : footerLinks.filter((section) => section.heading !== "Product");
+  // Always render the Product column, but lock it if unauthenticated
+  const visibleFooterLinks = footerLinks;
 
   return (
     <footer
@@ -89,7 +87,10 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
 
           {/* Link Columns */}
           {visibleFooterLinks.map((section) => {
-            const isLocked = section.heading === "Resources" || section.heading === "Legal";
+            const isLocked = 
+              section.heading === "Resources" || 
+              section.heading === "Legal" || 
+              section.heading === "Product";
             return (
               <div 
                 key={section.heading} 

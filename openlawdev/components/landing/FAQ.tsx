@@ -58,13 +58,10 @@ function AccordionItem({
   return (
     <div
       style={{
-        backgroundColor: "var(--color-paper-bg)",
-        borderColor: isOpen
-          ? "rgba(164, 31, 19, 0.2)"
-          : "rgba(41, 47, 54, 0.07)",
+        borderColor: isOpen ? "rgba(164, 31, 19, 0.4)" : "var(--color-border-subtle)",
         transition: "border-color 200ms ease",
       }}
-      className="rounded-2xl border"
+      className="border-b"
     >
       <button
         type="button"
@@ -75,9 +72,8 @@ function AccordionItem({
         className="
           cursor-pointer
           w-full flex items-center justify-between gap-4
-          px-7 py-5 text-left
+          py-6 text-left
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF5F1]
-          rounded-2xl
         "
       >
         <span
@@ -113,7 +109,7 @@ function AccordionItem({
         <div className="overflow-hidden">
           <p
             style={{ color: "var(--color-text-secondary)" }}
-            className="px-7 pb-6 text-[14px] lg:text-[15px] font-normal leading-relaxed"
+            className="pb-6 pr-6 text-[14px] lg:text-[15px] font-normal leading-relaxed max-w-[65ch]"
           >
             {answer}
           </p>
