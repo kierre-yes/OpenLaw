@@ -108,11 +108,11 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
         <div className="flex flex-col gap-2">
           <h1
             className="text-[2rem] font-semibold tracking-tight"
-            style={{ color: "#292F36" }}
+            style={{ color: "var(--color-text-primary)" }}
           >
             {t("title")}
           </h1>
-          <p className="text-[15px] leading-relaxed max-w-2xl" style={{ color: "#8F7A6E" }}>
+          <p className="text-[15px] leading-relaxed max-w-2xl" style={{ color: "var(--color-text-secondary)" }}>
             {t("subtitle")}
           </p>
         </div>
@@ -123,49 +123,49 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
             <div 
               className="relative w-full rounded-xl border flex items-center px-4 py-3 transition-colors duration-200"
               style={{ 
-                backgroundColor: "#FFFFFF", 
+                backgroundColor: "var(--color-paper-bg)", 
                 borderColor: "rgba(41, 47, 54, 0.15)",
               }}
             >
-              <Search className="w-5 h-5 shrink-0" style={{ color: "#8F7A6E" }} />
+              <Search className="w-5 h-5 shrink-0" style={{ color: "var(--color-text-secondary)" }} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t("searchPlaceholder")}
-                className="w-full bg-transparent outline-none ml-3 text-[15px] placeholder:text-[#8F7A6E]/60"
-                style={{ color: "#292F36" }}
+                className="w-full bg-transparent outline-none ml-3 text-[15px] placeholder:text-text-secondary/60"
+                style={{ color: "var(--color-text-primary)" }}
               />
             </div>
 
             {/* Legal Notepad Container for List */}
             <div
               style={{
-                backgroundColor: "#FFFFFF",
-                borderColor: "rgba(41, 47, 54, 0.08)",
+                backgroundColor: "var(--color-paper-bg)",
+                borderColor: "var(--color-border-subtle)",
               }}
               className="w-full relative flex flex-col rounded-[24px] border pl-10 pr-5 sm:pl-14 sm:pr-8 py-8 shadow-sm overflow-visible z-10"
             >
               {/* Ruled Legal Notepad red margin line indicator */}
               <div
-                className="absolute top-0 bottom-0 left-6 sm:left-8 w-[1.5px] bg-[#A41F13]/20"
+                className="absolute top-0 bottom-0 left-6 sm:left-8 w-[1.5px] bg-brand-red/20"
                 aria-hidden="true"
               />
 
               {/* Memo/Sticky Tape adhesive graphic at top left */}
               <div
                 style={{ backgroundColor: "rgba(143, 122, 110, 0.1)" }}
-                className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-[#8F7A6E]/5 transform -rotate-1 rounded-sm"
+                className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-text-secondary/5 transform -rotate-1 rounded-sm"
                 aria-hidden="true"
               />
 
               {/* Sticky Page Marker / Document Tab (Clock icon badge) */}
               <div
-                style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+                style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
                 className="
                   absolute -top-3.5 right-6 sm:right-8 
                   px-3.5 py-2 rounded-lg 
-                  shadow-md shadow-[#A41F13]/10
+                  shadow-md shadow-brand-red/10
                   transform rotate-2 
                   text-xs font-bold tracking-wide
                   flex items-center gap-1.5
@@ -188,7 +188,7 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
                         <div key={group} className="flex flex-col gap-3">
                           <h2 
                             className="text-[12px] font-bold uppercase tracking-wider border-b border-[rgba(41,47,54,0.06)] pb-1.5"
-                            style={{ color: "#8F7A6E" }}
+                            style={{ color: "var(--color-text-secondary)" }}
                           >
                             {group}
                           </h2>
@@ -213,18 +213,18 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
                                   {/* Left Content Area */}
                                   <div className="flex-1 flex gap-3.5 min-w-0">
                                     <div className="w-9 h-9 rounded-lg shrink-0 flex items-center justify-center bg-[rgba(41,47,54,0.04)] mt-0.5">
-                                      <MessageSquare className="w-4.5 h-4.5" style={{ color: "#8F7A6E" }} />
+                                      <MessageSquare className="w-4.5 h-4.5" style={{ color: "var(--color-text-secondary)" }} />
                                     </div>
                                     <div className="flex flex-col gap-1 min-w-0">
                                       <h3 
-                                        className="text-[15px] font-semibold truncate group-hover:text-[#A41F13] transition-colors"
-                                        style={{ color: "#292F36" }}
+                                        className="text-[15px] font-semibold truncate group-hover:text-brand-red transition-colors"
+                                        style={{ color: "var(--color-text-primary)" }}
                                       >
                                         {item.title || t("untitled")}
                                       </h3>
                                       <p 
                                         className="text-[13px] leading-relaxed line-clamp-1"
-                                        style={{ color: "#8F7A6E" }}
+                                        style={{ color: "var(--color-text-secondary)" }}
                                       >
                                         {t("defaultDesc")}
                                       </p>
@@ -232,7 +232,7 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
                                       <div className="flex flex-wrap items-center gap-x-3.5 gap-y-2 mt-1">
                                         <div 
                                           className="text-[11px] flex items-center gap-1.5" 
-                                          style={{ color: "#8F7A6E" }}
+                                          style={{ color: "var(--color-text-secondary)" }}
                                           title={exactTime}
                                         >
                                           <Clock className="w-3 h-3" />
@@ -250,13 +250,13 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
                                       title="Delete from history"
                                       aria-label="Delete history item"
                                       className="
-                                        p-2 rounded-lg hover:bg-[rgba(164,31,19,0.08)] text-[#8F7A6E] hover:text-[#A41F13]
+                                        p-2 rounded-lg hover:bg-[rgba(164,31,19,0.08)] text-text-secondary hover:text-brand-red
                                         transition-colors duration-150 active:scale-[0.95] cursor-pointer
                                       "
                                     >
                                       <Trash2 className="w-4 h-4" />
                                     </button>
-                                    <ChevronRight className="w-4 h-4 text-[#8F7A6E] opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                                    <ChevronRight className="w-4 h-4 text-text-secondary opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                                   </div>
                                 </li>
                               );
@@ -269,11 +269,11 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
                 ) : (
                   <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
                     <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[rgba(41,47,54,0.05)]">
-                      <Search className="w-6 h-6 text-[#8F7A6E]" />
+                      <Search className="w-6 h-6 text-text-secondary" />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <span className="text-[15px] font-semibold" style={{ color: "#292F36" }}>{t("emptySearchTitle")}</span>
-                      <span className="text-[13px]" style={{ color: "#8F7A6E" }}>
+                      <span className="text-[15px] font-semibold" style={{ color: "var(--color-text-primary)" }}>{t("emptySearchTitle")}</span>
+                      <span className="text-[13px]" style={{ color: "var(--color-text-secondary)" }}>
                         {t("emptySearchDesc")}
                       </span>
                     </div>
@@ -281,7 +281,7 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
                       type="button"
                       onClick={() => setSearchQuery("")}
                       className="mt-2 text-[13px] font-semibold hover:underline cursor-pointer"
-                      style={{ color: "#A41F13" }}
+                      style={{ color: "var(--color-brand-red)" }}
                     >
                       {t("clearFilter")}
                     </button>
@@ -294,20 +294,20 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
                     <button
                       onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-semibold text-[#8F7A6E] hover:bg-[rgba(41,47,54,0.04)] hover:text-[#292F36] disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-semibold text-text-secondary hover:bg-[rgba(41,47,54,0.04)] hover:text-text-primary disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors cursor-pointer"
                     >
                       <ChevronLeft className="w-4 h-4" />
                       {t("previous") || "Previous"}
                     </button>
                     
-                    <span className="text-[13px] font-medium text-[#8F7A6E]">
+                    <span className="text-[13px] font-medium text-text-secondary">
                       Page {currentPage} of {totalPages}
                     </span>
 
                     <button
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-semibold text-[#8F7A6E] hover:bg-[rgba(41,47,54,0.04)] hover:text-[#292F36] disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[13px] font-semibold text-text-secondary hover:bg-[rgba(41,47,54,0.04)] hover:text-text-primary disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors cursor-pointer"
                     >
                       {t("next") || "Next"}
                       <ChevronRight className="w-4 h-4" />
@@ -321,39 +321,39 @@ export default function HistoryClient({ initialSessions }: { initialSessions: Ch
           /* Empty state for the entire history */
           <div
             style={{
-              backgroundColor: "#FFFFFF",
-              borderColor: "rgba(41, 47, 54, 0.08)",
+              backgroundColor: "var(--color-paper-bg)",
+              borderColor: "var(--color-border-subtle)",
             }}
             className="w-full relative flex flex-col items-center justify-center rounded-[24px] border pl-10 pr-5 sm:pl-14 sm:pr-8 py-20 shadow-sm overflow-visible z-10"
           >
             {/* Ruled Legal Notepad red margin line indicator */}
             <div
-              className="absolute top-0 bottom-0 left-6 sm:left-8 w-[1.5px] bg-[#A41F13]/20"
+              className="absolute top-0 bottom-0 left-6 sm:left-8 w-[1.5px] bg-brand-red/20"
               aria-hidden="true"
             />
             
             <div className="flex flex-col items-center max-w-sm text-center gap-5">
               <div className="w-14 h-14 rounded-full flex items-center justify-center bg-[rgba(164,31,19,0.08)]">
-                <Clock className="w-6 h-6 text-[#A41F13]" />
+                <Clock className="w-6 h-6 text-brand-red" />
               </div>
               <div className="flex flex-col gap-1.5">
-                <h3 className="text-[17px] font-semibold" style={{ color: "#292F36" }}>{t("emptyTitle")}</h3>
-                <p className="text-[13px] leading-relaxed" style={{ color: "#8F7A6E" }}>
+                <h3 className="text-[17px] font-semibold" style={{ color: "var(--color-text-primary)" }}>{t("emptyTitle")}</h3>
+                <p className="text-[13px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
                   {t("emptyDesc")}
                 </p>
               </div>
               <button
                 onClick={() => router.push("/search")}
                 style={{
-                  backgroundColor: "#A41F13",
-                  color: "#FAF5F1",
+                  backgroundColor: "var(--color-brand-red)",
+                  color: "var(--color-text-inverse)",
                 }}
                 className="
                   cursor-pointer px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide
                   transition-all duration-200 ease-in-out
                   hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-black/10
                   active:scale-[0.97]
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60
                 "
               >
                 {t("startSearching")}

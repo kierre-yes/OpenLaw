@@ -1,34 +1,81 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-inter), sans-serif;
+
+  --color-background: var(--theme-bg);
+  --color-foreground: var(--theme-fg);
+  --color-page-bg: var(--theme-page-bg);
+  
+  --color-text-primary: var(--theme-text-primary);
+  --color-text-secondary: var(--theme-text-secondary);
+  --color-text-inverse: var(--theme-text-inverse);
+  
+  --color-paper-bg: var(--theme-paper-bg);
+  --color-surface-subtle: var(--theme-surface-subtle);
+  
+  --color-border-subtle: var(--theme-border-subtle);
+  --color-border-medium: var(--theme-border-medium);
+  
+  --color-brand-red: var(--theme-brand-red);
+  --color-brand-red-hover: var(--theme-brand-red-hover);
+  
+  --color-overlay-dark: var(--theme-overlay-dark);
+  --color-overlay-darker: var(--theme-overlay-darker);
+  --color-overlay-brand-light: var(--theme-overlay-brand-light);
+  --color-overlay-brand-medium: var(--theme-overlay-brand-medium);
+}
+
 :root {
-  --background: #FAF5F1;
-  --foreground: #292F36;
-  --page-bg: #FAF5F1;
-  --text-primary: #292F36;
-  --text-secondary: #8F7A6E;
-  --border-subtle: rgba(41, 47, 54, 0.08);
+  --theme-bg: #FAF5F1;
+  --theme-fg: #292F36;
+  --theme-page-bg: #FAF5F1;
+  
+  --theme-text-primary: #292F36;
+  --theme-text-secondary: #8F7A6E;
+  --theme-text-inverse: #FAF5F1;
+  
+  --theme-paper-bg: #FFFFFF;
+  --theme-surface-subtle: #E0DBD8;
+  
+  --theme-border-subtle: rgba(41, 47, 54, 0.08);
+  --theme-border-medium: rgba(41, 47, 54, 0.18);
+  
+  --theme-brand-red: #A41F13;
+  --theme-brand-red-hover: #8d1a0f;
+  
+  --theme-overlay-dark: rgba(41, 47, 54, 0.05);
+  --theme-overlay-darker: rgba(41, 47, 54, 0.1);
+  --theme-overlay-brand-light: rgba(164, 31, 19, 0.10);
+  --theme-overlay-brand-medium: rgba(164, 31, 19, 0.20);
 }
 
 .dark {
-  --background: #1A1E23;
-  --foreground: #FAF5F1;
-  --page-bg: #1A1E23;
-  --text-primary: #FAF5F1;
-  --text-secondary: #E0DBD8;
-  --border-subtle: rgba(250, 245, 241, 0.1);
+  --theme-bg: #1A1E23;
+  --theme-fg: #FAF5F1;
+  --theme-page-bg: #1A1E23;
+  
+  --theme-text-primary: #FAF5F1;
+  --theme-text-secondary: #E0DBD8;
+  --theme-text-inverse: #292F36;
+  
+  --theme-paper-bg: #22272E;
+  --theme-surface-subtle: rgba(250, 245, 241, 0.1);
+  
+  --theme-border-subtle: rgba(250, 245, 241, 0.1);
+  --theme-border-medium: rgba(250, 245, 241, 0.2);
+  
+  --theme-brand-red: #C43425;
+  --theme-brand-red-hover: #D44233;
+  
+  --theme-overlay-dark: rgba(250, 245, 241, 0.05);
+  --theme-overlay-darker: rgba(250, 245, 241, 0.1);
+  --theme-overlay-brand-light: rgba(196, 52, 37, 0.15);
+  --theme-overlay-brand-medium: rgba(196, 52, 37, 0.25);
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--theme-bg);
+  color: var(--theme-fg);
 }

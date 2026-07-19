@@ -34,7 +34,7 @@ export default function SettingsClient() {
         {/* Header Section */}
         <div className="flex flex-col gap-2">
           <h1
-            className="text-[2rem] font-semibold tracking-tight dark:text-[#FAF5F1]"
+            className="text-[2rem] font-semibold tracking-tight dark:text-text-inverse"
             style={{ color: "var(--text-primary, #292F36)" }}
           >
             {t("title")}
@@ -47,23 +47,23 @@ export default function SettingsClient() {
         {/* Legal Notepad Container for Settings List */}
         <div
           style={{
-            borderColor: "rgba(41, 47, 54, 0.08)",
+            borderColor: "var(--color-border-subtle)",
           }}
-          className="w-full relative flex flex-col rounded-[24px] border pl-10 pr-5 sm:pl-14 sm:pr-8 py-8 shadow-sm overflow-visible z-10 bg-white dark:bg-[#292F36] dark:border-white/10"
+          className="w-full relative flex flex-col rounded-[24px] border pl-10 pr-5 sm:pl-14 sm:pr-8 py-8 shadow-sm overflow-visible z-10 bg-white dark:bg-text-primary dark:border-white/10"
         >
           {/* Ruled Legal Notepad red margin line indicator */}
           <div
-            className="absolute top-0 bottom-0 left-6 sm:left-8 w-[1.5px] bg-[#A41F13]/20 dark:bg-[#A41F13]/50"
+            className="absolute top-0 bottom-0 left-6 sm:left-8 w-[1.5px] bg-brand-red/20 dark:bg-brand-red/50"
             aria-hidden="true"
           />
 
           {/* Sticky Page Marker / Document Tab (Settings icon badge) */}
           <div
-            style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+            style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
             className="
               absolute -top-3.5 right-6 sm:right-8 
               px-3.5 py-2 rounded-lg 
-              shadow-md shadow-[#A41F13]/10
+              shadow-md shadow-brand-red/10
               transform rotate-2 
               text-xs font-bold tracking-wide
               flex items-center gap-1.5
@@ -80,13 +80,13 @@ export default function SettingsClient() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-2">
               <div className="flex gap-4 min-w-0">
                 <div className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center bg-[rgba(41,47,54,0.04)] dark:bg-white/5 mt-0.5">
-                  <Globe className="w-5 h-5 text-[#8F7A6E] dark:text-[#E0DBD8]" />
+                  <Globe className="w-5 h-5 text-text-secondary dark:text-[#E0DBD8]" />
                 </div>
                 <div className="flex flex-col gap-1 min-w-0">
-                  <h3 className="text-[15px] font-semibold text-[#292F36] dark:text-[#FAF5F1]">
+                  <h3 className="text-[15px] font-semibold text-text-primary dark:text-text-inverse">
                     {t("language")}
                   </h3>
-                  <p className="text-[13px] leading-relaxed text-[#8F7A6E] dark:text-[#E0DBD8]/70">
+                  <p className="text-[13px] leading-relaxed text-text-secondary dark:text-[#E0DBD8]/70">
                     {t("languageDescription")}
                   </p>
                 </div>
@@ -99,14 +99,14 @@ export default function SettingsClient() {
                   className="
                     flex items-center justify-between gap-3
                     pl-4 pr-3 py-2.5 rounded-xl border border-[rgba(41,47,54,0.15)] dark:border-white/10
-                    bg-transparent text-[14px] font-semibold text-[#292F36] dark:text-[#FAF5F1]
-                    focus:outline-none focus:ring-2 focus:ring-[#A41F13]/60 cursor-pointer
+                    bg-transparent text-[14px] font-semibold text-text-primary dark:text-text-inverse
+                    focus:outline-none focus:ring-2 focus:ring-brand-red/60 cursor-pointer
                     min-w-[140px] transition-all duration-200 ease-in-out
                     hover:bg-[rgba(41,47,54,0.04)] dark:hover:bg-white/5
                   "
                 >
                   <span>{currentLocale === "fil" ? "Filipino" : "English"}</span>
-                  <ChevronDown className={`w-4 h-4 text-[#8F7A6E] dark:text-[#E0DBD8] transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`w-4 h-4 text-text-secondary dark:text-[#E0DBD8] transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
                 </button>
 
                 {isDropdownOpen && (
@@ -124,7 +124,7 @@ export default function SettingsClient() {
                           changeLocale("en");
                           setIsDropdownOpen(false);
                         }}
-                        className={`w-full text-left px-4 py-2.5 text-[14px] font-semibold transition-colors hover:bg-[rgba(41,47,54,0.04)] dark:hover:bg-white/5 ${currentLocale === "en" ? "text-[#A41F13] dark:text-[#A41F13]" : "text-[#292F36] dark:text-[#FAF5F1]"}`}
+                        className={`w-full text-left px-4 py-2.5 text-[14px] font-semibold transition-colors hover:bg-[rgba(41,47,54,0.04)] dark:hover:bg-white/5 ${currentLocale === "en" ? "text-brand-red dark:text-brand-red" : "text-text-primary dark:text-text-inverse"}`}
                       >
                         English
                       </button>
@@ -133,7 +133,7 @@ export default function SettingsClient() {
                           changeLocale("fil");
                           setIsDropdownOpen(false);
                         }}
-                        className={`w-full text-left px-4 py-2.5 text-[14px] font-semibold transition-colors hover:bg-[rgba(41,47,54,0.04)] dark:hover:bg-white/5 ${currentLocale === "fil" ? "text-[#A41F13] dark:text-[#A41F13]" : "text-[#292F36] dark:text-[#FAF5F1]"}`}
+                        className={`w-full text-left px-4 py-2.5 text-[14px] font-semibold transition-colors hover:bg-[rgba(41,47,54,0.04)] dark:hover:bg-white/5 ${currentLocale === "fil" ? "text-brand-red dark:text-brand-red" : "text-text-primary dark:text-text-inverse"}`}
                       >
                         Filipino
                       </button>
@@ -149,13 +149,13 @@ export default function SettingsClient() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-2">
               <div className="flex gap-4 min-w-0">
                 <div className="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center bg-[rgba(41,47,54,0.04)] dark:bg-white/5 mt-0.5">
-                  <Palette className="w-5 h-5 text-[#8F7A6E] dark:text-[#E0DBD8]" />
+                  <Palette className="w-5 h-5 text-text-secondary dark:text-[#E0DBD8]" />
                 </div>
                 <div className="flex flex-col gap-1 min-w-0">
-                  <h3 className="text-[15px] font-semibold text-[#292F36] dark:text-[#FAF5F1]">
+                  <h3 className="text-[15px] font-semibold text-text-primary dark:text-text-inverse">
                     {t("theme")}
                   </h3>
-                  <p className="text-[13px] leading-relaxed text-[#8F7A6E] dark:text-[#E0DBD8]/70">
+                  <p className="text-[13px] leading-relaxed text-text-secondary dark:text-[#E0DBD8]/70">
                     {t("themeDescription")}
                   </p>
                 </div>
@@ -170,8 +170,8 @@ export default function SettingsClient() {
                       px-4 py-2 rounded-lg text-[13px] font-semibold tracking-wide capitalize
                       transition-all duration-200 ease-in-out cursor-pointer
                       ${theme === tOption 
-                        ? "bg-[#A41F13] text-[#FAF5F1] shadow-md shadow-[#A41F13]/20" 
-                        : "text-[#8F7A6E] dark:text-[#E0DBD8] hover:bg-black/5 dark:hover:bg-white/10"
+                        ? "bg-brand-red text-text-inverse shadow-md shadow-[#A41F13]/20" 
+                        : "text-text-secondary dark:text-[#E0DBD8] hover:bg-black/5 dark:hover:bg-white/10"
                       }
                     `}
                   >
