@@ -3,9 +3,7 @@
 import { useActionState, useState } from "react";
 import { signUp } from "../actions";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AlertCircle, CheckCircle2, Loader2, Eye, EyeOff } from "lucide-react";
-import LoadingScreen from "@/components/landing/LoadingScreen";
 
 const initialState = { error: undefined, message: undefined };
 
@@ -31,7 +29,7 @@ function InputField({
       <label
         htmlFor={id}
         className="text-[13px] font-semibold"
-        style={{ color: "#292F36" }}
+        style={{ color: "var(--color-text-primary)" }}
       >
         {label}
       </label>
@@ -49,16 +47,16 @@ function InputField({
           disabled:opacity-50
         "
         style={{
-          backgroundColor: "#FFFFFF",
-          borderColor: "rgba(41,47,54,0.18)",
-          color: "#292F36",
+          backgroundColor: "var(--color-paper-bg)",
+          borderColor: "var(--color-border-medium)",
+          color: "var(--color-text-primary)",
         }}
         onFocus={(e) => {
-          e.currentTarget.style.borderColor = "#A41F13";
+          e.currentTarget.style.borderColor = "var(--color-brand-red)";
           e.currentTarget.style.boxShadow = "0 0 0 3px rgba(164,31,19,0.10)";
         }}
         onBlur={(e) => {
-          e.currentTarget.style.borderColor = "rgba(41,47,54,0.18)";
+          e.currentTarget.style.borderColor = "var(--color-border-medium)";
           e.currentTarget.style.boxShadow = "none";
         }}
       />
@@ -68,20 +66,9 @@ function InputField({
 
 export default function SignUpPage() {
   const [state, formAction, isPending] = useActionState(signUp, initialState);
-  const [isNavigating, setIsNavigating] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const router = useRouter();
-
-  const handleSwitchClick = (e: React.MouseEvent, href: string) => {
-    e.preventDefault();
-    setIsNavigating(true);
-    setTimeout(() => {
-      setIsNavigating(false);
-      router.push(href);
-    }, 1200);
-  };
 
   const getPasswordStrength = (pass: string) => {
     if (!pass) return { label: "", color: "" };
@@ -93,33 +80,32 @@ export default function SignUpPage() {
     if (score === 1) {
       return {
         label: "Weak - make it longer, add numbers or mixed case",
-        color: "#A41F13",
+        color: "var(--color-brand-red)",
       };
     }
     if (score === 2) {
       return {
         label: "Medium - add symbols or uppercase letters for better security",
-        color: "#8F7A6E",
+        color: "var(--color-text-secondary)",
       };
     }
-    return { label: "Strong - secure password", color: "#292F36" };
+    return { label: "Strong - secure password", color: "var(--color-text-primary)" };
   };
 
   const strength = getPasswordStrength(password);
 
   return (
     <>
-      <LoadingScreen isLoading={isNavigating} />
       <div className="flex flex-col gap-8">
       {/* Heading */}
       <div className="flex flex-col gap-1.5">
         <h2
           className="text-[1.625rem] font-semibold tracking-tight"
-          style={{ color: "#292F36" }}
+          style={{ color: "var(--color-text-primary)" }}
         >
           Create an account
         </h2>
-        <p className="text-[14px]" style={{ color: "#8F7A6E" }}>
+        <p className="text-[14px]" style={{ color: "var(--color-text-secondary)" }}>
           Start researching Philippine law with cited, source-grounded answers.
         </p>
       </div>
@@ -131,7 +117,7 @@ export default function SignUpPage() {
           className="flex items-start gap-2.5 rounded-xl px-4 py-3.5 text-[13px] font-medium"
           style={{
             backgroundColor: "rgba(41,47,54,0.06)",
-            color: "#292F36",
+            color: "var(--color-text-primary)",
             borderLeft: "3px solid #292F36",
           }}
         >
@@ -150,7 +136,7 @@ export default function SignUpPage() {
           className="flex items-start gap-2.5 rounded-xl px-4 py-3.5 text-[13px] font-medium"
           style={{
             backgroundColor: "rgba(164,31,19,0.07)",
-            color: "#A41F13",
+            color: "var(--color-brand-red)",
             borderLeft: "3px solid #A41F13",
           }}
         >
@@ -177,7 +163,7 @@ export default function SignUpPage() {
             <label
               htmlFor="password"
               className="text-[13px] font-semibold"
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
               Password
             </label>
@@ -198,16 +184,16 @@ export default function SignUpPage() {
                   disabled:opacity-50
                 "
                 style={{
-                  backgroundColor: "#FFFFFF",
-                  borderColor: "rgba(41,47,54,0.18)",
-                  color: "#292F36",
+                  backgroundColor: "var(--color-paper-bg)",
+                  borderColor: "var(--color-border-medium)",
+                  color: "var(--color-text-primary)",
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "#A41F13";
+                  e.currentTarget.style.borderColor = "var(--color-brand-red)";
                   e.currentTarget.style.boxShadow = "0 0 0 3px rgba(164,31,19,0.10)";
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(41,47,54,0.18)";
+                  e.currentTarget.style.borderColor = "var(--color-border-medium)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               />
@@ -239,7 +225,7 @@ export default function SignUpPage() {
             <label
               htmlFor="confirm"
               className="text-[13px] font-semibold"
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
               Confirm password
             </label>
@@ -258,16 +244,16 @@ export default function SignUpPage() {
                   disabled:opacity-50
                 "
                 style={{
-                  backgroundColor: "#FFFFFF",
-                  borderColor: "rgba(41,47,54,0.18)",
-                  color: "#292F36",
+                  backgroundColor: "var(--color-paper-bg)",
+                  borderColor: "var(--color-border-medium)",
+                  color: "var(--color-text-primary)",
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "#A41F13";
+                  e.currentTarget.style.borderColor = "var(--color-brand-red)";
                   e.currentTarget.style.boxShadow = "0 0 0 3px rgba(164,31,19,0.10)";
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(41,47,54,0.18)";
+                  e.currentTarget.style.borderColor = "var(--color-border-medium)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               />
@@ -287,12 +273,12 @@ export default function SignUpPage() {
           </div>
 
           {/* Terms note */}
-          <p className="text-[12px] leading-relaxed" style={{ color: "#8F7A6E" }}>
+          <p className="text-[12px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
             By creating an account you agree to our{" "}
             <Link
               href="/terms"
               className="underline cursor-pointer"
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
               Terms of Use
             </Link>{" "}
@@ -300,7 +286,7 @@ export default function SignUpPage() {
             <Link
               href="/privacy"
               className="underline cursor-pointer"
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
               Privacy Policy
             </Link>
@@ -318,7 +304,7 @@ export default function SignUpPage() {
               hover:shadow-md active:scale-[0.98]
               disabled:opacity-60 disabled:cursor-not-allowed
             "
-            style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+            style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
           >
             {isPending ? (
               <>
@@ -333,13 +319,12 @@ export default function SignUpPage() {
       )}
 
       {/* Login link */}
-      <p className="text-center text-[13px]" style={{ color: "#8F7A6E" }}>
+      <p className="text-center text-[13px]" style={{ color: "var(--color-text-secondary)" }}>
         Already have an account?{" "}
         <Link
           href="/auth/login"
-          onClick={(e) => handleSwitchClick(e, "/auth/login")}
           className="font-semibold transition-colors duration-150 cursor-pointer"
-          style={{ color: "#292F36" }}
+          style={{ color: "var(--color-text-primary)" }}
         >
           Sign in →
         </Link>

@@ -24,3 +24,6 @@
 
 ## Interaction Guidelines
 - **Clickable Elements**: Whenever designing an interactive or clickable component (buttons, custom links, items, headers with actions), explicitly declare `cursor-pointer` in its `className`.
+
+## Code Quality Guidelines
+- **Anti-Vibecoded**: ALWAYS apply the `anti-vibecoded` skill when generating or modifying code. Avoid shallow, generic, or poorly abstracted code ("vibecoded" patterns). Ensure domain-specific naming, proper error handling, reusable primitives, and coherent architectural logic.

@@ -3,40 +3,26 @@
 import { useActionState, useState } from "react";
 import { signIn } from "../actions";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AlertCircle, Loader2, Eye, EyeOff } from "lucide-react";
-import LoadingScreen from "@/components/landing/LoadingScreen";
 
 const initialState = { error: undefined, message: undefined };
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(signIn, initialState);
-  const [isNavigating, setIsNavigating] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
-
-  const handleSwitchClick = (e: React.MouseEvent, href: string) => {
-    e.preventDefault();
-    setIsNavigating(true);
-    setTimeout(() => {
-      setIsNavigating(false);
-      router.push(href);
-    }, 1200);
-  };
 
   return (
     <>
-      <LoadingScreen isLoading={isNavigating} />
       <div className="flex flex-col gap-8">
       {/* Heading */}
       <div className="flex flex-col gap-1.5">
         <h2
           className="text-[1.625rem] font-semibold tracking-tight"
-          style={{ color: "#292F36" }}
+          style={{ color: "var(--color-text-primary)" }}
         >
           Sign in to OpenLaw
         </h2>
-        <p className="text-[14px]" style={{ color: "#8F7A6E" }}>
+        <p className="text-[14px]" style={{ color: "var(--color-text-secondary)" }}>
           Access your legal research workspace.
         </p>
       </div>
@@ -48,7 +34,7 @@ export default function LoginPage() {
           className="flex items-start gap-2.5 rounded-xl px-4 py-3.5 text-[13px] font-medium"
           style={{
             backgroundColor: "rgba(164,31,19,0.07)",
-            color: "#A41F13",
+            color: "var(--color-brand-red)",
             borderLeft: "3px solid #A41F13",
           }}
         >
@@ -64,7 +50,7 @@ export default function LoginPage() {
           <label
             htmlFor="email"
             className="text-[13px] font-semibold"
-            style={{ color: "#292F36" }}
+            style={{ color: "var(--color-text-primary)" }}
           >
             Email address
           </label>
@@ -83,17 +69,17 @@ export default function LoginPage() {
               focus:ring-2
             "
             style={{
-              backgroundColor: "#FFFFFF",
-              borderColor: "rgba(41,47,54,0.18)",
-              color: "#292F36",
+              backgroundColor: "var(--color-paper-bg)",
+              borderColor: "var(--color-border-medium)",
+              color: "var(--color-text-primary)",
             }}
             onFocus={(e) => {
-              e.currentTarget.style.borderColor = "#A41F13";
+              e.currentTarget.style.borderColor = "var(--color-brand-red)";
               e.currentTarget.style.boxShadow =
                 "0 0 0 3px rgba(164,31,19,0.10)";
             }}
             onBlur={(e) => {
-              e.currentTarget.style.borderColor = "rgba(41,47,54,0.18)";
+              e.currentTarget.style.borderColor = "var(--color-border-medium)";
               e.currentTarget.style.boxShadow = "none";
             }}
           />
@@ -105,14 +91,14 @@ export default function LoginPage() {
             <label
               htmlFor="password"
               className="text-[13px] font-semibold"
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
               Password
             </label>
             <Link
               href="/auth/forgot-password"
               className="text-[12px] font-medium transition-colors duration-150 cursor-pointer"
-              style={{ color: "#A41F13" }}
+              style={{ color: "var(--color-brand-red)" }}
             >
               Forgot password?
             </Link>
@@ -132,17 +118,17 @@ export default function LoginPage() {
                 disabled:opacity-50
               "
               style={{
-                backgroundColor: "#FFFFFF",
-                borderColor: "rgba(41,47,54,0.18)",
-                color: "#292F36",
+                backgroundColor: "var(--color-paper-bg)",
+                borderColor: "var(--color-border-medium)",
+                color: "var(--color-text-primary)",
               }}
               onFocus={(e) => {
-                e.currentTarget.style.borderColor = "#A41F13";
+                e.currentTarget.style.borderColor = "var(--color-brand-red)";
                 e.currentTarget.style.boxShadow =
                   "0 0 0 3px rgba(164,31,19,0.10)";
               }}
               onBlur={(e) => {
-                e.currentTarget.style.borderColor = "rgba(41,47,54,0.18)";
+                e.currentTarget.style.borderColor = "var(--color-border-medium)";
                 e.currentTarget.style.boxShadow = "none";
               }}
             />
@@ -174,8 +160,8 @@ export default function LoginPage() {
             focus-visible:outline-none focus-visible:ring-2
           "
           style={{
-            backgroundColor: "#A41F13",
-            color: "#FAF5F1",
+            backgroundColor: "var(--color-brand-red)",
+            color: "var(--color-text-inverse)",
           }}
         >
           {isPending ? (
@@ -193,25 +179,24 @@ export default function LoginPage() {
       <div className="flex items-center gap-3">
         <div
           className="flex-1 h-px"
-          style={{ backgroundColor: "rgba(41,47,54,0.1)" }}
+          style={{ backgroundColor: "var(--color-overlay-darker)" }}
         />
         <span className="text-[12px]" style={{ color: "rgba(41,47,54,0.4)" }}>
           New to OpenLaw?
         </span>
         <div
           className="flex-1 h-px"
-          style={{ backgroundColor: "rgba(41,47,54,0.1)" }}
+          style={{ backgroundColor: "var(--color-overlay-darker)" }}
         />
       </div>
 
       {/* Sign-up link */}
-      <p className="text-center text-[13px]" style={{ color: "#8F7A6E" }}>
+      <p className="text-center text-[13px]" style={{ color: "var(--color-text-secondary)" }}>
         Don&apos;t have an account?{" "}
         <Link
           href="/auth/sign-up"
-          onClick={(e) => handleSwitchClick(e, "/auth/sign-up")}
           className="font-semibold transition-colors duration-150 cursor-pointer"
-          style={{ color: "#292F36" }}
+          style={{ color: "var(--color-text-primary)" }}
         >
           Create one →
         </Link>

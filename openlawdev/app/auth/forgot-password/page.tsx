@@ -25,27 +25,27 @@ export default function ForgotPasswordPage() {
               {/* Pulse ring */}
               <div
                 className="absolute w-20 h-20 rounded-full animate-ping opacity-10"
-                style={{ backgroundColor: "#292F36" }}
+                style={{ backgroundColor: "var(--color-text-primary)" }}
                 aria-hidden="true"
               />
               <div
                 className="relative w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm"
                 style={{ backgroundColor: "rgba(41,47,54,0.06)" }}
               >
-                <Mail className="w-7 h-7" style={{ color: "#292F36" }} />
+                <Mail className="w-7 h-7" style={{ color: "var(--color-text-primary)" }} />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
               <h2
                 className="text-[1.5rem] font-semibold tracking-tight"
-                style={{ color: "#292F36" }}
+                style={{ color: "var(--color-text-primary)" }}
               >
                 Reset link sent
               </h2>
               <p
                 className="text-[14px] leading-relaxed max-w-xs mx-auto"
-                style={{ color: "#8F7A6E" }}
+                style={{ color: "var(--color-text-secondary)" }}
               >
                 Check your inbox for a reset link. It will expire in one hour.
               </p>
@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
           {/* Divider */}
           <div
             className="h-px w-full"
-            style={{ backgroundColor: "rgba(41,47,54,0.08)" }}
+            style={{ backgroundColor: "var(--color-border-subtle)" }}
           />
 
           {/* Status banner */}
@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
             style={{
               backgroundColor: "rgba(41,47,54,0.04)",
               border: "1px solid rgba(41,47,54,0.08)",
-              color: "#292F36",
+              color: "var(--color-text-primary)",
             }}
           >
             <CheckCircle2
@@ -85,7 +85,7 @@ export default function ForgotPasswordPage() {
           >
             <p
               className="text-[12px] font-semibold uppercase tracking-widest"
-              style={{ color: "#8F7A6E" }}
+              style={{ color: "var(--color-text-secondary)" }}
             >
               Didn&apos;t receive it?
             </p>
@@ -94,11 +94,11 @@ export default function ForgotPasswordPage() {
               "The link works for one hour only.",
               "Use the same email tied to your account.",
             ].map((tip) => (
-              <p key={tip} className="flex items-start gap-2.5 text-[13px] leading-snug" style={{ color: "#292F36" }}>
+              <p key={tip} className="flex items-start gap-2.5 text-[13px] leading-snug" style={{ color: "var(--color-text-primary)" }}>
 
                 <span
                   className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
-                  style={{ backgroundColor: "#A41F13" }}
+                  style={{ backgroundColor: "var(--color-brand-red)" }}
                   aria-hidden="true"
                 />
                 {tip}
@@ -109,7 +109,7 @@ export default function ForgotPasswordPage() {
           <Link
             href="/auth/login"
             className="inline-flex items-center justify-center gap-2 text-[13px] font-semibold cursor-pointer text-center transition-colors duration-150 hover:underline"
-            style={{ color: "#292F36" }}
+            style={{ color: "var(--color-text-primary)" }}
           >
             ← Back to sign in
           </Link>
@@ -122,11 +122,11 @@ export default function ForgotPasswordPage() {
           <div className="flex flex-col gap-1.5">
             <h2
               className="text-[1.625rem] font-semibold tracking-tight"
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
               Reset your password
             </h2>
-            <p className="text-[14px] leading-relaxed" style={{ color: "#8F7A6E" }}>
+            <p className="text-[14px] leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
               Enter the email for your account. We&apos;ll send you a link to
               reset your password. The link expires in one hour.
             </p>
@@ -139,7 +139,7 @@ export default function ForgotPasswordPage() {
               className="flex items-start gap-2.5 rounded-xl px-4 py-3.5 text-[13px] font-medium"
               style={{
                 backgroundColor: "rgba(164,31,19,0.07)",
-                color: "#A41F13",
+                color: "var(--color-brand-red)",
                 borderLeft: "3px solid #A41F13",
               }}
             >
@@ -157,7 +157,7 @@ export default function ForgotPasswordPage() {
               <label
                 htmlFor="email"
                 className="text-[13px] font-semibold"
-                style={{ color: "#292F36" }}
+                style={{ color: "var(--color-text-primary)" }}
               >
                 Email address
               </label>
@@ -171,17 +171,17 @@ export default function ForgotPasswordPage() {
                 placeholder="you@example.com"
                 className="w-full rounded-xl px-4 py-3 text-[14px] font-normal outline-none border transition-all duration-150 disabled:opacity-50"
                 style={{
-                  backgroundColor: "#FFFFFF",
-                  borderColor: "rgba(41,47,54,0.18)",
-                  color: "#292F36",
+                  backgroundColor: "var(--color-paper-bg)",
+                  borderColor: "var(--color-border-medium)",
+                  color: "var(--color-text-primary)",
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "#A41F13";
+                  e.currentTarget.style.borderColor = "var(--color-brand-red)";
                   e.currentTarget.style.boxShadow =
                     "0 0 0 3px rgba(164,31,19,0.10)";
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(41,47,54,0.18)";
+                  e.currentTarget.style.borderColor = "var(--color-border-medium)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               />
@@ -191,7 +191,7 @@ export default function ForgotPasswordPage() {
               type="submit"
               disabled={isPending}
               className="cursor-pointer w-full inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl text-[14px] font-semibold tracking-wide transition-all duration-200 ease-in-out hover:shadow-md active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
-              style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+              style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
             >
               {isPending ? (
                 <>
@@ -211,11 +211,11 @@ export default function ForgotPasswordPage() {
           </form>
 
           {/* Back to login */}
-          <p className="text-center text-[13px]" style={{ color: "#8F7A6E" }}>
+          <p className="text-center text-[13px]" style={{ color: "var(--color-text-secondary)" }}>
             <Link
               href="/auth/login"
               className="font-semibold cursor-pointer transition-colors duration-150 hover:underline"
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
               ← Back to sign in
             </Link>

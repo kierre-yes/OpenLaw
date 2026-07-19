@@ -1,22 +1,26 @@
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import { createOpenAI } from "@ai-sdk/openai";
+import { streamText, tool, stepCountIs } from "ai";
+import { z } from "zod";
+import { createClient } from "@/lib/supabase/server";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
-// Initialize OpenRouter with the key from environment
-const openrouter = createOpenRouter({
+// Initialize OpenRouter with the key from environment using the official OpenAI provider for stable tool loops
+const openrouter = createOpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY,
 });
-import { streamText } from "ai";
-import {
-  generateEmbedding,
-  searchChunks,
-  supabaseAdmin,
-  type RetrievedChunk,
-} from "@/lib/rag/retrieve";
-import { createClient } from "@/lib/supabase/server";
+
+const supabaseAdmin = createSupabaseClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
 
 export async function POST(req: Request) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     const userId = user?.id || null;
 
     const body = await req.json();
@@ -37,7 +41,7 @@ export async function POST(req: Request) {
 
     const latestMessage = incomingMessages[incomingMessages.length - 1];
 
-    // Normalize content (handles complex multi-part messages, including new UI parts format)
+    // Normalize content
     let queryText = "";
     if (typeof latestMessage.content === "string") {
       queryText = latestMessage.content;
@@ -55,44 +59,14 @@ export async function POST(req: Request) {
         .join(" ");
     }
 
-    // 1. Generate embedding for the user query
-    const embedding = await generateEmbedding(queryText);
-
-    // 2. Retrieve top-k chunks via shared utility
-    const documents: RetrievedChunk[] = await searchChunks(embedding, 8); // Increased to 8 for better coverage
-
-    // 3. Format context with citations
-    const context = documents
-      .map((doc) =>
-        [
-          `[Source Title: ${doc.source_title}]`,
-          `[Short Title: ${doc.short_title ?? "Unknown"}]`,
-          `[Source Type: ${doc.source_type ?? "Unknown"}]`,
-          `[Jurisdiction: ${doc.jurisdiction ?? "Unknown"}]`,
-          `[Publication Date: ${doc.publication_date ?? "Unknown"}]`,
-          `[Version Label: ${doc.version_label ?? "Unknown"}]`,
-          `[Chunk ID: ${doc.chunk_id}]`,
-          `[Section: ${doc.section_label ?? "Unknown"}]`,
-          `[Article: ${doc.article_label ?? "Unknown"}]`,
-          `[Chunk Title: ${doc.chunk_title ?? "Unknown"}]`,
-          doc.text_content,
-        ].join("\n"),
-      )
-      .join("\n\n---\n\n");
-
-    // 4. Build system prompt
-    const systemPrompt = `You are a Philippine Legal Assistant named OpenLaw.
-For substantive legal questions or inquiries about Philippine law, you MUST answer based ONLY on the provided context. If the context does not contain the answer to a substantive question, say "I don't have enough information in my verifiable sources to answer that."
-
-However, if the user is just saying a casual greeting (like "hello", "hi"), expressing gratitude ("thank you"), or asking about your identity ("who are you"), you MUST respond politely and conversationally without mentioning the context.
-
-When you provide facts from the context, please cite the [Source Title] and [Article/Section] appropriately so the user can verify it. Include a direct answer, a brief explanation, and the source citation. 
-
-Context:
-${context || "No relevant legal context found."}
-`;
-
-    console.log("[chat] Generated Context Length:", context.length);
+    const systemPrompt = `You are an expert Philippine Legal Assistant named OpenLaw.
+You MUST strictly adhere to the following rules:
+1. ONLY answer questions related to Philippine Law, legal processes, jurisprudence, Republic Acts, and Supreme Court Decisions.
+2. If the user asks a question about ANY non-legal topic (e.g., programming, math, general trivia), you MUST politely refuse to answer and remind them that you are exclusively a Philippine Legal Assistant.
+3. You have access to a tool called "search_philippine_law". You MUST use this tool to search the internet for official Philippine laws whenever a user asks a substantive legal question.
+4. When you answer based on the search results, always cite the exact source URL so the user can verify it. 
+5. If the user asks a casual greeting, respond conversationally without searching.
+6. DO NOT use any emojis in your response. Keep a professional and formal legal tone.`;
 
     interface MessagePart {
       type: string;
@@ -105,7 +79,6 @@ ${context || "No relevant legal context found."}
       parts?: MessagePart[];
     }
 
-    // Convert incoming messages to CoreMessage format manually to avoid library breaking changes
     const modelMessages = incomingMessages
       .filter((m: IncomingMessage) => m.role !== "system")
       .map((m: IncomingMessage) => {
@@ -127,52 +100,92 @@ ${context || "No relevant legal context found."}
         };
       });
 
-    // 5. Stream the response from OpenRouter
+    // Force chat completions endpoint (not responses API) via .chat() — openrouter/free compatible
     const result = await streamText({
-      model: openrouter("openrouter/free"), // Stable free routing
+      model: openrouter.chat("openrouter/free"),
       system: systemPrompt,
       messages: modelMessages,
-      temperature: 0.1, // Low temperature for factual RAG responses
-      async onFinish({ text }) {
-        // Fire-and-forget: save to chat_sessions + chat_messages
-        try {
-          const retrievedChunkIds = documents.map((d) => d.chunk_id);
-          const grounded = documents.length > 0;
+      temperature: 0.1,
+      stopWhen: stepCountIs(3),
+      tools: {
+        search_philippine_law: tool({
+          description:
+            "Search official Philippine legal sources on the web (e.g. lawphil.net, officialgazette.gov.ph).",
+          parameters: z.object({
+            query: z
+              .string()
+              .describe("The legal concept, law, or case to search for."),
+          }),
+          // @ts-expect-error - Typescript struggles with execute typings when returned from tool
+          execute: async ({ query }) => {
+            const apiKey = process.env.TAVILY_API_KEY;
+            if (!apiKey) {
+              throw new Error("TAVILY_API_KEY is not set in the environment.");
+            }
 
-          // Create session
+            // We append site restrictions to focus on official/trusted Philippine sources
+            const enforcedQuery = `${query} (site:lawphil.net OR site:officialgazette.gov.ph OR site:elibrary.judiciary.gov.ph OR site:chanrobles.com)`;
+
+            const response = await fetch("https://api.tavily.com/search", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                api_key: apiKey,
+                query: enforcedQuery,
+                search_depth: "basic",
+                include_answer: false,
+                include_raw_content: false,
+                max_results: 5,
+              }),
+            });
+
+            if (!response.ok) {
+              console.error("[Tavily] Search failed:", await response.text());
+              throw new Error("Search failed.");
+            }
+
+            const data = await response.json();
+            return {
+              results: data.results.map((r: any) => ({
+                title: r.title,
+                url: r.url,
+                content: r.content,
+              })),
+            };
+          },
+        }),
+      },
+      async onFinish({ text }) {
+        try {
           const { data: session } = await supabaseAdmin
             .from("chat_sessions")
-            .insert({ 
+            .insert({
               title: queryText.slice(0, 100),
-              user_id: userId
+              user_id: userId,
             })
             .select("id")
             .single();
 
           if (session) {
-            // Insert message pair
             await supabaseAdmin.from("chat_messages").insert([
               {
                 session_id: session.id,
                 role: "user",
                 content: queryText,
-                retrieved_chunk_ids: null,
+                retrieved_chunk_ids: null, // No longer applicable
               },
               {
                 session_id: session.id,
                 role: "assistant",
                 content: text,
-                retrieved_chunk_ids:
-                  retrievedChunkIds.length > 0 ? retrievedChunkIds : null,
+                retrieved_chunk_ids: null,
               },
             ]);
-
-            console.log(
-              `[chat] Saved session ${session.id} (grounded: ${grounded})`,
-            );
+            console.log(`[chat] Saved session ${session.id}`);
           }
         } catch (saveErr) {
-          // Don't break the response if saving fails
           console.error("[chat] Failed to save history:", saveErr);
         }
       },
@@ -182,7 +195,7 @@ ${context || "No relevant legal context found."}
   } catch (error) {
     console.error("RAG Error:", error);
     return new Response(
-      JSON.stringify({ error: "Failed to process RAG request" }),
+      JSON.stringify({ error: "Failed to process request" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json" },

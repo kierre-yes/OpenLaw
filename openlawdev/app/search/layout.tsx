@@ -14,12 +14,11 @@ export default async function SearchLayout({
 
   return (
     <div
-      className="flex flex-col min-h-screen font-sans transition-colors duration-300"
-      style={{ backgroundColor: "var(--page-bg)" }}
+      className="flex flex-col h-[100dvh] overflow-hidden font-sans transition-colors duration-300"
+      style={{ backgroundColor: "var(--color-page-bg)" }}
     >
       <Header isAuthenticated={!!user} userEmail={user?.email} />
-      <main className="flex-1 flex flex-col">{children}</main>
-      <Footer isAuthenticated={!!user} />
+      <main className="flex-1 flex flex-col overflow-hidden min-h-0">{children}</main>
     </div>
   );
 }

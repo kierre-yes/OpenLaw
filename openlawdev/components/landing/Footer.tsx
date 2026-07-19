@@ -42,7 +42,7 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
 
   return (
     <footer
-      style={{ backgroundColor: "#292F36", color: "#FAF5F1" }}
+      style={{ backgroundColor: "var(--color-text-primary)", color: "var(--color-text-inverse)" }}
       className="w-full"
       role="contentinfo"
     >
@@ -112,8 +112,8 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
                           className={`
                             text-[13px] font-medium leading-snug
                             transition-colors duration-150
-                            hover:text-[#FAF5F1]
-                            focus-visible:outline-none focus-visible:text-[#FAF5F1]
+                            hover:text-text-inverse
+                            focus-visible:outline-none focus-visible:text-text-inverse
                             ${isLocked ? "cursor-default pointer-events-none" : "cursor-pointer"}
                           `}
                         >
@@ -129,8 +129,8 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
                   <div className="absolute inset-0 flex items-center justify-center overflow-visible pointer-events-none z-30">
                     <div 
                       style={{ 
-                        backgroundColor: "#A41F13", 
-                        color: "#FAF5F1",
+                        backgroundColor: "var(--color-brand-red)", 
+                        color: "var(--color-text-inverse)",
                         borderColor: "rgba(250, 245, 241, 0.15)"
                       }}
                       className="
@@ -184,8 +184,8 @@ export default function Footer({ isAuthenticated = false }: { isAuthenticated?: 
                 inline-flex items-center gap-1.5
                 text-[12px] font-medium
                 transition-colors duration-150
-                hover:text-[#FAF5F1]
-                focus-visible:outline-none focus-visible:text-[#FAF5F1]
+                hover:text-text-inverse
+                focus-visible:outline-none focus-visible:text-text-inverse
               "
             >
               <Mail className="w-3.5 h-3.5" />

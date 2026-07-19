@@ -1,5 +1,3 @@
-import { generateEmbedding, searchChunks } from "@/lib/rag/retrieve";
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -10,27 +8,47 @@ export async function POST(req: Request) {
       return Response.json({ error: "Query is required" }, { status: 400 });
     }
 
-    // 1. Generate embedding
-    const embedding = await generateEmbedding(query);
+    const apiKey = process.env.TAVILY_API_KEY;
+    if (!apiKey) {
+      throw new Error("TAVILY_API_KEY is not set in the environment.");
+    }
+    
+    // We append site restrictions to focus on official/trusted Philippine sources
+    const enforcedQuery = `${query} (site:lawphil.net OR site:officialgazette.gov.ph OR site:elibrary.judiciary.gov.ph OR site:chanrobles.com)`;
+    
+    const response = await fetch("https://api.tavily.com/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        api_key: apiKey,
+        query: enforcedQuery,
+        search_depth: "advanced",
+        include_answer: false,
+        include_raw_content: false,
+        max_results: topK,
+      }),
+    });
+    
+    if (!response.ok) {
+      console.error("[Tavily] Search failed:", await response.text());
+      return Response.json(
+        { error: "Search failed. Try again later." },
+        { status: 500 },
+      );
+    }
+    
+    const data = await response.json();
 
-    // 2. Retrieve top-k chunks
-    const results = await searchChunks(embedding, topK);
-
-    // 3. Return ranked results
+    // 3. Return results
     return Response.json({
       query,
-      results: results.map((r) => ({
-        chunk_id: r.chunk_id,
-        source_id: r.source_id,
-        source_title: r.source_title,
-        version_id: r.version_id,
-        chunk_index: r.chunk_index,
-        section_label: r.section_label,
-        article_label: r.article_label,
-        chunk_title: r.chunk_title,
-        text_content: r.text_content,
-        score: Math.round(r.score * 1000) / 1000,
-        metadata: r.metadata,
+      results: data.results.map((r: any, index: number) => ({
+        chunk_id: `tavily-${index}`,
+        source_title: r.title,
+        text_content: r.content,
+        metadata: { url: r.url },
       })),
     });
   } catch (error) {

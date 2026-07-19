@@ -51,11 +51,11 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
         <div className="flex flex-col gap-2">
           <h1
             className="text-[2rem] font-semibold tracking-tight"
-            style={{ color: "#292F36" }}
+            style={{ color: "var(--color-text-primary)" }}
           >
             {t("title")}
           </h1>
-          <p className="text-[15px] leading-relaxed max-w-2xl" style={{ color: "#8F7A6E" }}>
+          <p className="text-[15px] leading-relaxed max-w-2xl" style={{ color: "var(--color-text-secondary)" }}>
             {t("subtitle")}
           </p>
         </div>
@@ -66,18 +66,18 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
           <div 
             className="relative flex-1 w-full rounded-xl border flex items-center px-4 py-3 transition-colors duration-200"
             style={{ 
-              backgroundColor: "#FFFFFF", 
+              backgroundColor: "var(--color-paper-bg)", 
               borderColor: "rgba(41, 47, 54, 0.15)",
             }}
           >
-            <Search className="w-5 h-5 shrink-0" style={{ color: "#8F7A6E" }} />
+            <Search className="w-5 h-5 shrink-0" style={{ color: "var(--color-text-secondary)" }} />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t("searchPlaceholder")}
-              className="w-full bg-transparent outline-none ml-3 text-[15px] placeholder:text-[#8F7A6E]/60"
-              style={{ color: "#292F36" }}
+              className="w-full bg-transparent outline-none ml-3 text-[15px] placeholder:text-text-secondary/60"
+              style={{ color: "var(--color-text-primary)" }}
             />
           </div>
 
@@ -92,12 +92,12 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
                   className={`
                     cursor-pointer px-4 py-2 rounded-lg text-[13px] font-semibold tracking-wide whitespace-nowrap
                     transition-all duration-200 ease-in-out
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60 focus-visible:ring-offset-2
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60 focus-visible:ring-offset-2
                     active:scale-[0.97]
                   `}
                   style={{
-                    backgroundColor: isActive ? "#A41F13" : "rgba(41, 47, 54, 0.05)",
-                    color: isActive ? "#FAF5F1" : "#292F36",
+                    backgroundColor: isActive ? "var(--color-brand-red)" : "var(--color-overlay-dark)",
+                    color: isActive ? "var(--color-page-bg)" : "var(--color-text-primary)",
                   }}
                 >
                   {t(`filter${filter}`)}
@@ -110,31 +110,31 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
         {/* Legal Notepad Container for List */}
         <div
           style={{
-            backgroundColor: "#FFFFFF",
-            borderColor: "rgba(41, 47, 54, 0.08)",
+            backgroundColor: "var(--color-paper-bg)",
+            borderColor: "var(--color-border-subtle)",
           }}
           className="w-full relative flex flex-col rounded-[24px] border pl-10 pr-5 sm:pl-14 sm:pr-8 py-8 shadow-sm overflow-visible z-10"
         >
           {/* Ruled Legal Notepad red margin line indicator */}
           <div
-            className="absolute top-0 bottom-0 left-6 sm:left-8 w-[1.5px] bg-[#A41F13]/20"
+            className="absolute top-0 bottom-0 left-6 sm:left-8 w-[1.5px] bg-brand-red/20"
             aria-hidden="true"
           />
 
           {/* Memo/Sticky Tape adhesive graphic at top left */}
           <div
             style={{ backgroundColor: "rgba(143, 122, 110, 0.1)" }}
-            className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-[#8F7A6E]/5 transform -rotate-1 rounded-sm"
+            className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-text-secondary/5 transform -rotate-1 rounded-sm"
             aria-hidden="true"
           />
 
           {/* Sticky Page Marker / Document Tab (Library icon badge) */}
           <div
-            style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+            style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
             className="
               absolute -top-3.5 right-6 sm:right-8 
               px-3.5 py-2 rounded-lg 
-              shadow-md shadow-[#A41F13]/10
+              shadow-md shadow-brand-red/10
               transform rotate-2 
               text-xs font-bold tracking-wide
               flex items-center gap-1.5
@@ -170,10 +170,10 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
                     >
                       <div className="flex flex-col gap-2 flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <Icon className="w-4 h-4 shrink-0" style={{ color: "#A41F13" }} />
+                          <Icon className="w-4 h-4 shrink-0" style={{ color: "var(--color-brand-red)" }} />
                           <h3 
-                            className="text-[15px] font-semibold truncate group-hover:text-[#A41F13] transition-colors"
-                            style={{ color: "#292F36" }}
+                            className="text-[15px] font-semibold truncate group-hover:text-brand-red transition-colors"
+                            style={{ color: "var(--color-text-primary)" }}
                           >
                             {source.title}
                           </h3>
@@ -181,14 +181,14 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
                         
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-0.5">
                           {source.source_type && (
-                            <span className="text-[12px] font-medium" style={{ color: "#8F7A6E" }}>
+                            <span className="text-[12px] font-medium" style={{ color: "var(--color-text-secondary)" }}>
                               {source.source_type}
                             </span>
                           )}
                           {source.jurisdiction && (
                             <>
                               <span className="w-1 h-1 rounded-full bg-[rgba(41,47,54,0.2)]" />
-                              <span className="text-[12px] font-medium" style={{ color: "#8F7A6E" }}>
+                              <span className="text-[12px] font-medium" style={{ color: "var(--color-text-secondary)" }}>
                                 {source.jurisdiction}
                               </span>
                             </>
@@ -196,7 +196,7 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
                           {source.publication_date && (
                             <>
                               <span className="w-1 h-1 rounded-full bg-[rgba(41,47,54,0.2)]" />
-                              <span className="text-[12px] font-medium" style={{ color: "#8F7A6E" }}>
+                              <span className="text-[12px] font-medium" style={{ color: "var(--color-text-secondary)" }}>
                                 {new Date(source.publication_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}
                               </span>
                             </>
@@ -211,20 +211,20 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
                             (source.status ?? "").toLowerCase() === "active"
                               ? {
                                   backgroundColor: "rgba(164, 31, 19, 0.08)",
-                                  color: "#A41F13",
+                                  color: "var(--color-brand-red)",
                                 }
                               : {
                                   backgroundColor: "rgba(143, 122, 110, 0.12)",
-                                  color: "#8F7A6E",
+                                  color: "var(--color-text-secondary)",
                                 }
                           }
                         >
                           {source.status ?? "Unknown"}
                         </span>
                         {source.official_url ? (
-                          <ExternalLink className="w-4 h-4 text-[#8F7A6E] opacity-50 group-hover:opacity-100 group-hover:text-[#A41F13] transition-all" />
+                          <ExternalLink className="w-4 h-4 text-text-secondary opacity-50 group-hover:opacity-100 group-hover:text-brand-red transition-all" />
                         ) : (
-                          <ChevronRight className="w-4 h-4 text-[#8F7A6E] opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                          <ChevronRight className="w-4 h-4 text-text-secondary opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                         )}
                       </div>
                     </li>
@@ -234,11 +234,11 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
             ) : (
               <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[rgba(41,47,54,0.05)]">
-                  <Library className="w-6 h-6 text-[#8F7A6E]" />
+                  <Library className="w-6 h-6 text-text-secondary" />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-[15px] font-semibold" style={{ color: "#292F36" }}>{t("emptySearchTitle")}</span>
-                  <span className="text-[13px]" style={{ color: "#8F7A6E" }}>
+                  <span className="text-[15px] font-semibold" style={{ color: "var(--color-text-primary)" }}>{t("emptySearchTitle")}</span>
+                  <span className="text-[13px]" style={{ color: "var(--color-text-secondary)" }}>
                     {t("emptySearchDesc")}
                   </span>
                 </div>
@@ -249,7 +249,7 @@ export default function SourcesClient({ initialSources }: { initialSources: Sour
                     setActiveFilter("All");
                   }}
                   className="mt-2 text-[13px] font-semibold hover:underline cursor-pointer"
-                  style={{ color: "#A41F13" }}
+                  style={{ color: "var(--color-brand-red)" }}
                 >
                   {t("clearFilters")}
                 </button>

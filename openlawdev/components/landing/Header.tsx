@@ -28,10 +28,10 @@ export default function Header({
   const emailInitials = userEmail ? userEmail.charAt(0).toUpperCase() : null;
   const t = useTranslations("Header");
 
-  const navLinks = [
+  const navLinks = pathname === "/" ? [
     { label: t("howItWorks"), href: "#steps" },
     { label: t("faq"), href: "#faq" },
-  ];
+  ] : [];
 
   useEffect(() => {
     const matchingLink = navLinks.find(
@@ -83,14 +83,14 @@ export default function Header({
         role="banner"
         style={{
           borderBottom: scrolled
-            ? "1px solid var(--border-subtle)"
+            ? "1px solid var(--color-border-subtle)"
             : "1px solid transparent",
           boxShadow: scrolled
             ? "0 4px 20px rgba(0, 0, 0, 0.05)"
             : "none",
           transition: "box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease",
         }}
-        className="fixed top-0 left-0 right-0 z-50 w-full bg-[#FAF5F1] dark:bg-[#1A1E23] text-[#292F36] dark:text-[#FAF5F1]"
+        className="fixed top-0 left-0 right-0 z-50 w-full bg-page-bg dark:bg-[#1A1E23] text-text-primary dark:text-text-inverse"
       >
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <div className="flex h-20 items-center justify-between gap-6">
@@ -99,7 +99,7 @@ export default function Header({
               <Link
                 href="/"
                 aria-label="OpenLaw home"
-                className="cursor-pointer flex items-center gap-2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40"
+                className="cursor-pointer flex items-center gap-2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-text-primary/40"
               >
                 <div className="relative w-36 h-14 overflow-hidden flex items-center justify-center">
                   <Image
@@ -128,17 +128,17 @@ export default function Header({
                     onClick={(e) => handleNavClick(e, href, label)}
                     aria-current={isActive ? "page" : undefined}
                     style={{
-                      color: isActive ? "#292F36" : "rgba(41, 47, 54, 0.65)",
+                      color: isActive ? "var(--color-text-primary)" : "rgba(41, 47, 54, 0.65)",
                       backgroundColor: isActive
-                        ? "rgba(41, 47, 54, 0.08)"
+                        ? "var(--color-border-subtle)"
                         : "transparent",
                       fontFamily: "inherit",
                     }}
                     className="
                       cursor-pointer relative px-4 py-2 rounded-lg text-sm font-semibold
                       transition-all duration-200 ease-in-out
-                      hover:bg-[rgba(41,47,54,0.08)] hover:text-[#292F36]
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
+                      hover:bg-[rgba(41,47,54,0.08)] hover:text-text-primary
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/40
                       tracking-wide
                     "
                   >
@@ -146,7 +146,7 @@ export default function Header({
                     {isActive && (
                       <span
                         aria-hidden="true"
-                        className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-[#A41F13]"
+                        className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-brand-red"
                       />
                     )}
                   </Link>
@@ -159,8 +159,8 @@ export default function Header({
               <Link
                 href="/auth/sign-up"
                 style={{
-                  backgroundColor: "#A41F13",
-                  color: "#FAF5F1",
+                  backgroundColor: "var(--color-brand-red)",
+                  color: "var(--color-text-inverse)",
                   fontFamily: "inherit",
                 }}
                 className="
@@ -169,7 +169,7 @@ export default function Header({
                   transition-all duration-200 ease-in-out
                   hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-black/10
                   active:scale-[0.97]
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60
                 "
               >
                 Join Beta
@@ -187,7 +187,7 @@ export default function Header({
               className="
                 cursor-pointer md:hidden flex flex-col items-center justify-center w-9 h-9 rounded-lg gap-[5px]
                 hover:bg-[rgba(41,47,54,0.08)] transition-all duration-200
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/40
               "
             >
               <span
@@ -234,9 +234,9 @@ export default function Header({
             overflow: "hidden",
             transition:
               "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease",
-            borderTop: menuOpen ? "1px solid var(--border-subtle)" : "none",
+            borderTop: menuOpen ? "1px solid var(--color-border-subtle)" : "none",
           }}
-          className="md:hidden bg-[#FAF5F1] dark:bg-[#1A1E23]"
+          className="md:hidden bg-page-bg dark:bg-[#1A1E23]"
         >
           <nav
             aria-label="Mobile navigation"
@@ -254,22 +254,22 @@ export default function Header({
                   }}
                   aria-current={isActive ? "page" : undefined}
                   style={{
-                    color: isActive ? "#292F36" : "rgba(41, 47, 54, 0.65)",
+                    color: isActive ? "var(--color-text-primary)" : "rgba(41, 47, 54, 0.65)",
                     backgroundColor: isActive
                       ? "rgba(41, 47, 54, 0.06)"
                       : "transparent",
                   }}
                   className="
                     cursor-pointer flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold
-                    hover:bg-[rgba(41,47,54,0.06)] hover:text-[#292F36]
+                    hover:bg-[rgba(41,47,54,0.06)] hover:text-text-primary
                     transition-all duration-150
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#292F36]/40
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/40
                   "
                 >
                   {isActive && (
                     <span
                       aria-hidden="true"
-                      className="h-4 w-[2px] rounded-full bg-[#A41F13]"
+                      className="h-4 w-[2px] rounded-full bg-brand-red"
                     />
                   )}
                   {label}
@@ -289,15 +289,15 @@ export default function Header({
                   }
                 }}
                 style={{
-                  backgroundColor: "#A41F13",
-                  color: "#FAF5F1",
+                  backgroundColor: "var(--color-brand-red)",
+                  color: "var(--color-text-inverse)",
                 }}
                 className="
                   cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
                   text-sm font-semibold flex-1
                   hover:bg-[#8d1a0f] transition-all duration-150
                   active:scale-[0.97]
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60
                 "
               >
                 Join Beta

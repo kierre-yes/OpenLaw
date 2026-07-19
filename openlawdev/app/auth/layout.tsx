@@ -17,12 +17,12 @@ export default function AuthLayout({
   return (
     <div
       className="min-h-screen w-full flex flex-col lg:flex-row"
-      style={{ backgroundColor: "#FAF5F1" }}
+      style={{ backgroundColor: "var(--color-page-bg)" }}
     >
       {/* ── LEFT: Brand Panel ── */}
       <aside
         className="hidden lg:flex lg:w-[42%] xl:w-[40%] flex-col justify-between px-14 py-14 relative overflow-hidden shrink-0"
-        style={{ backgroundColor: "#FAF5F1", color: "#292F36" }}
+        style={{ backgroundColor: "var(--color-page-bg)", color: "var(--color-text-primary)" }}
       >
         {/* Subtle texture lines */}
         <div
@@ -40,7 +40,7 @@ export default function AuthLayout({
           {/* Vertical divider line */}
           <div
             className="absolute top-0 bottom-0 right-0 w-[1.5px]"
-            style={{ backgroundColor: "rgba(41,47,54,0.08)" }}
+            style={{ backgroundColor: "var(--color-border-subtle)" }}
           />
         </div>
 
@@ -62,31 +62,31 @@ export default function AuthLayout({
         {/* Brand message inside Paper Box Card */}
         <div
           style={{
-            backgroundColor: "#FFFFFF",
-            borderColor: "rgba(41, 47, 54, 0.08)",
+            backgroundColor: "var(--color-paper-bg)",
+            borderColor: "var(--color-border-subtle)",
           }}
           className="relative flex flex-col gap-6 rounded-2xl border pl-12 pr-7 py-8 shadow-sm overflow-visible z-10"
         >
           {/* Ruled Legal Notepad red margin line indicator */}
           <div 
-            className="absolute top-0 bottom-0 left-7 w-[1.5px] bg-[#A41F13]/20" 
+            className="absolute top-0 bottom-0 left-7 w-[1.5px] bg-brand-red/20" 
             aria-hidden="true" 
           />
 
           {/* Memo/Sticky Tape adhesive graphic at top left */}
           <div 
             style={{ backgroundColor: "rgba(143, 122, 110, 0.1)" }}
-            className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-[#8F7A6E]/5 transform -rotate-1 rounded-sm"
+            className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-text-secondary/5 transform -rotate-1 rounded-sm"
             aria-hidden="true"
           />
 
           {/* Sticky Page Marker / Document Tab (Scale icon badge) */}
           <div
-            style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+            style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
             className="
               absolute -top-3.5 right-6 
               px-3.5 py-2 rounded-lg 
-              shadow-md shadow-[#A41F13]/10
+              shadow-md shadow-brand-red/10
               transform rotate-2 
               text-xs font-bold tracking-wide
               flex items-center gap-1.5
@@ -101,19 +101,19 @@ export default function AuthLayout({
           <div className="flex flex-col gap-4 mt-2">
             <h1
               className="text-[1.75rem] font-semibold leading-[1.25] tracking-tight"
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
             >
               Research backed by{" "}
               <span
                 className="underline underline-offset-[6px] decoration-[2.5px]"
-                style={{ color: "#A41F13", textDecorationColor: "#A41F13" }}
+                style={{ color: "var(--color-brand-red)", textDecorationColor: "var(--color-brand-red)" }}
               >
                 exact sources.
               </span>
             </h1>
             <p
               className="text-[14px] leading-relaxed font-normal"
-              style={{ color: "#8F7A6E" }}
+              style={{ color: "var(--color-text-secondary)" }}
             >
               Every answer cites the exact law or case it came from.
               No made-up law. No vague references.
@@ -130,7 +130,7 @@ export default function AuthLayout({
               <li key={item} className="flex items-center gap-3">
                 <span
                   style={{
-                    color: "#A41F13",
+                    color: "var(--color-brand-red)",
                     backgroundColor: "rgba(164, 31, 19, 0.07)",
                   }}
                   className="shrink-0 w-6 h-6 flex items-center justify-center rounded-md text-xs font-semibold"
@@ -139,7 +139,7 @@ export default function AuthLayout({
                 </span>
                 <span
                   className="text-[13px] font-semibold leading-snug"
-                  style={{ color: "#292F36" }}
+                  style={{ color: "var(--color-text-primary)" }}
                 >
                   {item}
                 </span>
@@ -151,7 +151,7 @@ export default function AuthLayout({
         {/* Bottom note */}
         <p
           className="relative z-10 text-[11px] font-medium tracking-wide"
-          style={{ color: "#8F7A6E" }}
+          style={{ color: "var(--color-text-secondary)" }}
         >
           Built for legal research with source-backed answers.
         </p>

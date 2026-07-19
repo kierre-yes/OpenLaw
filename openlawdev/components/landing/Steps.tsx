@@ -82,7 +82,7 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
   return (
     <section
       id="steps"
-      style={{ backgroundColor: "var(--page-bg)" }}
+      style={{ backgroundColor: "var(--color-page-bg)" }}
       className="w-full py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
@@ -90,7 +90,7 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
         {/* Section Header */}
         <div className="mb-20 max-w-xl">
           <h2
-            style={{ color: "#292F36" }}
+            style={{ color: "var(--color-text-primary)" }}
             className="text-3xl sm:text-4xl font-semibold leading-tight tracking-tight"
           >
             From question to cited answer in three steps.
@@ -103,8 +103,8 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
             <article
               key={step.number}
               style={{
-                backgroundColor: "#FFFFFF",
-                borderColor: "rgba(41, 47, 54, 0.08)",
+                backgroundColor: "var(--color-paper-bg)",
+                borderColor: "var(--color-border-subtle)",
               }}
               className={`cursor-pointer relative flex flex-col gap-6 rounded-2xl border pl-12 pr-7 py-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 overflow-visible ${
                 idx === 2 ? "lg:col-span-2 lg:flex-row lg:items-center lg:pl-16 lg:py-10" : ""
@@ -112,24 +112,24 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
             >
               {/* Ruled Legal Notepad red margin line indicator */}
               <div 
-                className="absolute top-0 bottom-0 left-7 w-[1.5px] bg-[#A41F13]/20" 
+                className="absolute top-0 bottom-0 left-7 w-[1.5px] bg-brand-red/20" 
                 aria-hidden="true" 
               />
 
               {/* Memo/Sticky Tape adhesive graphic at top left */}
               <div 
                 style={{ backgroundColor: "rgba(143, 122, 110, 0.1)" }}
-                className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-[#8F7A6E]/5 transform -rotate-1 rounded-sm"
+                className="absolute -top-2.5 left-10 w-12 h-5 border-l border-r border-text-secondary/5 transform -rotate-1 rounded-sm"
                 aria-hidden="true"
               />
 
               {/* Sticky Page Marker / Document Tab (Step Number Badge) */}
               <div
-                style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+                style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
                 className="
                   absolute -top-3.5 right-6 
                   px-3.5 py-2 rounded-lg 
-                  shadow-md shadow-[#A41F13]/10
+                  shadow-md shadow-brand-red/10
                   transform rotate-2 
                   text-sm font-bold tracking-wide
                   flex items-center gap-2
@@ -143,13 +143,13 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
               {/* Step Content */}
               <div className={`flex flex-col gap-3 mt-2 ${idx === 2 ? "lg:mt-0 lg:w-1/2 lg:pr-8" : ""}`}>
                 <h3
-                  style={{ color: "#292F36" }}
+                  style={{ color: "var(--color-text-primary)" }}
                   className="text-lg font-semibold leading-snug"
                 >
                   {step.title}
                 </h3>
                 <p
-                  style={{ color: "#8F7A6E" }}
+                  style={{ color: "var(--color-text-secondary)" }}
                   className="text-[15px] lg:text-[16px] font-normal leading-relaxed"
                 >
                   {step.description}
@@ -162,7 +162,7 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
                   <li key={i} className="flex items-start gap-3">
                     <span
                       style={{
-                        color: "#A41F13",
+                        color: "var(--color-brand-red)",
                         backgroundColor: "rgba(164, 31, 19, 0.07)",
                       }}
                       className="shrink-0 mt-0.5 w-6 h-6 flex items-center justify-center rounded-md"
@@ -170,7 +170,7 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
                       {item.icon}
                     </span>
                     <span
-                      style={{ color: "#292F36" }}
+                      style={{ color: "var(--color-text-primary)" }}
                       className="text-[13px] lg:text-[14px] font-medium leading-snug pt-0.5"
                     >
                       {item.label}
@@ -186,15 +186,15 @@ export default function Steps({ isAuthenticated = false }: { isAuthenticated?: b
         <div className="mt-16 flex items-center gap-4 flex-wrap justify-start">
           <Link
             href="/auth/sign-up"
-            style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+            style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
             className="
               cursor-pointer
               inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl
               text-[14px] font-semibold tracking-wide
               transition-all duration-200 ease-in-out
-              hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-[#A41F13]/15
+              hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-brand-red/15
               active:scale-[0.97]
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF5F1]
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF5F1]
             "
           >
             <Search className="w-4 h-4" />

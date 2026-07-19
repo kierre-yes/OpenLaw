@@ -58,7 +58,7 @@ function AccordionItem({
   return (
     <div
       style={{
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "var(--color-paper-bg)",
         borderColor: isOpen
           ? "rgba(164, 31, 19, 0.2)"
           : "rgba(41, 47, 54, 0.07)",
@@ -81,14 +81,14 @@ function AccordionItem({
         "
       >
         <span
-          style={{ color: "#292F36" }}
+          style={{ color: "var(--color-text-primary)" }}
           className="text-[15px] lg:text-[16px] font-semibold leading-snug"
         >
           {question}
         </span>
         <span
           style={{
-            color: isOpen ? "#A41F13" : "#8F7A6E",
+            color: isOpen ? "var(--color-brand-red)" : "var(--color-text-secondary)",
             transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
             transition: "transform 250ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms ease",
           }}
@@ -112,7 +112,7 @@ function AccordionItem({
       >
         <div className="overflow-hidden">
           <p
-            style={{ color: "#8F7A6E" }}
+            style={{ color: "var(--color-text-secondary)" }}
             className="px-7 pb-6 text-[14px] lg:text-[15px] font-normal leading-relaxed"
           >
             {answer}
@@ -133,7 +133,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      style={{ backgroundColor: "var(--page-bg)" }}
+      style={{ backgroundColor: "var(--color-page-bg)" }}
       className="w-full py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
@@ -142,13 +142,13 @@ export default function FAQ() {
           {/* ── LEFT: Section Header ── */}
           <div className="flex flex-col gap-5">
             <h2
-              style={{ color: "#292F36" }}
+              style={{ color: "var(--color-text-primary)" }}
               className="text-3xl sm:text-4xl font-semibold leading-tight tracking-tight"
             >
               Common questions about OpenLaw.
             </h2>
             <p
-              style={{ color: "#8F7A6E" }}
+              style={{ color: "var(--color-text-secondary)" }}
               className="text-[15px] lg:text-[16px] font-normal leading-relaxed max-w-sm"
             >
               Learn what the app can do, what it covers, and what it cannot do.
@@ -158,15 +158,15 @@ export default function FAQ() {
             <div className="hidden lg:flex flex-col items-start gap-4 mt-6">
               <Link
                 href="/auth/sign-up"
-                style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+                style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
                 className="
                   cursor-pointer
                   inline-flex items-center gap-2 px-6 py-3.5 rounded-xl
                   text-[14px] font-semibold tracking-wide
                   transition-all duration-200 ease-in-out
-                  hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-[#A41F13]/15
+                  hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-brand-red/15
                   active:scale-[0.97]
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF5F1]
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF5F1]
                 "
               >
                 <Search className="w-4 h-4" />
@@ -196,15 +196,15 @@ export default function FAQ() {
         <div className="flex lg:hidden flex-col items-start gap-4 mt-10">
           <Link
             href="/auth/sign-up"
-            style={{ backgroundColor: "#A41F13", color: "#FAF5F1" }}
+            style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
             className="
               cursor-pointer
               inline-flex items-center gap-2 px-6 py-3.5 rounded-xl
               text-[14px] font-semibold tracking-wide
               transition-all duration-200 ease-in-out
-              hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-[#A41F13]/15
+              hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-brand-red/15
               active:scale-[0.97]
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A41F13]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF5F1]
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF5F1]
             "
           >
             <Search className="w-4 h-4" />
