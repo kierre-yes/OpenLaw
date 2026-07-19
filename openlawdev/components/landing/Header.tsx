@@ -22,7 +22,7 @@ export default function Header({
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showSignOutModal, setShowSignOutModal] = useState(false);
+
   const [activeLink, setActiveLink] = useState("");
 
   const emailInitials = userEmail ? userEmail.charAt(0).toUpperCase() : null;
@@ -155,25 +155,77 @@ export default function Header({
             </nav>
 
             {/* ── RIGHT: CTA (desktop) ── */}
-            <div className="hidden md:flex items-center gap-3 shrink-0">
-              <Link
-                href="/auth/sign-up"
-                style={{
-                  backgroundColor: "var(--color-brand-red)",
-                  color: "var(--color-text-inverse)",
-                  fontFamily: "inherit",
-                }}
-                className="
-                  cursor-pointer inline-flex items-center gap-2 px-5 py-2 rounded-lg
-                  text-sm font-semibold tracking-wide
-                  transition-all duration-200 ease-in-out
-                  hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-black/10
-                  active:scale-[0.97]
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60
-                "
-              >
-                Join Beta
-              </Link>
+            <div className="hidden md:flex items-center gap-2 shrink-0">
+              {!isAuthenticated ? (
+                <>
+                  <Link
+                    href="/auth/login"
+                    className="
+                      cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-lg
+                      text-sm font-semibold tracking-wide
+                      transition-all duration-200 ease-in-out
+                      hover:bg-[rgba(41,47,54,0.06)] hover:text-text-primary
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/40
+                    "
+                    style={{ color: "var(--color-text-secondary)" }}
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    href="/auth/sign-up"
+                    style={{
+                      backgroundColor: "var(--color-brand-red)",
+                      color: "var(--color-text-inverse)",
+                      fontFamily: "inherit",
+                    }}
+                    className="
+                      cursor-pointer inline-flex items-center gap-2 px-5 py-2 rounded-lg
+                      text-sm font-semibold tracking-wide
+                      transition-all duration-200 ease-in-out
+                      hover:bg-[#8d1a0f] hover:shadow-md hover:shadow-black/10
+                      active:scale-[0.97]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60
+                    "
+                  >
+                    Join Beta
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => signOut()}
+                    className="
+                      cursor-pointer inline-flex items-center justify-center w-9 h-9 rounded-full
+                      transition-all duration-200 ease-in-out
+                      hover:bg-[rgba(164,31,19,0.08)]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/40
+                    "
+                    style={{ color: "var(--color-text-secondary)" }}
+                    aria-label="Sign Out"
+                    title="Sign Out"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                  <Link
+                    href="/search"
+                    style={{
+                      backgroundColor: "var(--color-text-primary)",
+                      color: "var(--color-text-inverse)",
+                      fontFamily: "inherit",
+                    }}
+                    className="
+                      cursor-pointer inline-flex items-center gap-2 px-5 py-2 rounded-lg
+                      text-sm font-semibold tracking-wide ml-1
+                      transition-all duration-200 ease-in-out
+                      hover:bg-black hover:shadow-md hover:shadow-black/10
+                      active:scale-[0.97]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/60
+                    "
+                  >
+                    Open App
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* ── MOBILE: Hamburger ── */}
@@ -278,30 +330,79 @@ export default function Header({
             })}
 
             {/* Mobile CTA row */}
-            <div className="mt-3 pt-3 border-t border-[rgba(41, 47, 54, 0.08)] flex items-center gap-3">
-              <Link
-                href="/auth/sign-up"
-                onClick={(e) => {
-                  setMenuOpen(false);
-                  if (onLinkClick) {
-                    e.preventDefault();
-                    onLinkClick("/auth/sign-up");
-                  }
-                }}
-                style={{
-                  backgroundColor: "var(--color-brand-red)",
-                  color: "var(--color-text-inverse)",
-                }}
-                className="
-                  cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
-                  text-sm font-semibold flex-1
-                  hover:bg-[#8d1a0f] transition-all duration-150
-                  active:scale-[0.97]
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60
-                "
-              >
-                Join Beta
-              </Link>
+            <div className="mt-3 pt-3 border-t border-[rgba(41, 47, 54, 0.08)] flex flex-col gap-2">
+              {!isAuthenticated ? (
+                <>
+                  <Link
+                    href="/auth/sign-up"
+                    onClick={(e) => {
+                      setMenuOpen(false);
+                      if (onLinkClick) { e.preventDefault(); onLinkClick("/auth/sign-up"); }
+                    }}
+                    style={{ backgroundColor: "var(--color-brand-red)", color: "var(--color-text-inverse)" }}
+                    className="
+                      cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
+                      text-sm font-semibold w-full
+                      hover:bg-[#8d1a0f] transition-all duration-150
+                      active:scale-[0.97]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60
+                    "
+                  >
+                    Join Beta
+                  </Link>
+                  <Link
+                    href="/auth/login"
+                    onClick={(e) => {
+                      setMenuOpen(false);
+                      if (onLinkClick) { e.preventDefault(); onLinkClick("/auth/login"); }
+                    }}
+                    style={{ color: "var(--color-text-secondary)" }}
+                    className="
+                      cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
+                      text-sm font-semibold w-full
+                      hover:bg-[rgba(41,47,54,0.06)] hover:text-text-primary transition-all duration-150
+                      active:scale-[0.97]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/40
+                    "
+                  >
+                    Log In
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/search"
+                    onClick={() => setMenuOpen(false)}
+                    style={{ backgroundColor: "var(--color-text-primary)", color: "var(--color-text-inverse)" }}
+                    className="
+                      cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
+                      text-sm font-semibold w-full
+                      hover:bg-black transition-all duration-150
+                      active:scale-[0.97]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text-primary/60
+                    "
+                  >
+                    Open App
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      signOut();
+                    }}
+                    style={{ color: "var(--color-text-secondary)" }}
+                    className="
+                      cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg
+                      text-sm font-semibold w-full
+                      hover:bg-[rgba(164,31,19,0.08)] hover:text-brand-red transition-all duration-150
+                      active:scale-[0.97]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/40
+                    "
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </>
+              )}
             </div>
           </nav>
         </div>
